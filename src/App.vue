@@ -1,19 +1,23 @@
 <template>
   <div id="app" class="container">
-    <Trigger />
+    <TriggerBuilder />
+    <JobBuilder />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Trigger from "./components/Trigger.vue";
+import TriggerBuilder from "./components/TriggerBuilder/TriggerBuilder.vue";
+import JobBuilder from "@/components/JobBuilder/JobBuilder.vue";
 
 @Component({
-  components: {
-    Trigger,
-  },
+  components: { TriggerBuilder, JobBuilder },
 })
 export default class App extends Vue {}
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+#app {
+  margin-top: 16px;
+}
+</style>
