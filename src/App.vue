@@ -8,10 +8,10 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import TriggerBuilder from "./components/TriggerBuilder/TriggerBuilder.vue";
-import JobBuilder from "@/components/JobBuilder/JobBuilder.vue";
+import JobsBuilder from "@/components/JobsBuilder/JobsBuilder.vue";
 
 @Component({
-  components: { TriggerBuilder, JobBuilder },
+  components: { TriggerBuilder, JobBuilder: JobsBuilder },
 })
 export default class App extends Vue {}
 </script>

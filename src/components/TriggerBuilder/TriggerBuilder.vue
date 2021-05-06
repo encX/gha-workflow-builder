@@ -8,10 +8,10 @@
     </div>
 
     <div class="buttons">
-      <b-button class="is-primary is-light">Push</b-button>
-      <b-button class="is-primary is-light">Pull Request</b-button>
-      <b-button class="is-primary is-light">Schedule</b-button>
-      <b-button class="is-primary is-light">Manual trigger</b-button>
+      <b-button type="is-primary is-light">Push</b-button>
+      <b-button type="is-primary is-light">Pull Request</b-button>
+      <b-button type="is-primary is-light">Schedule</b-button>
+      <b-button type="is-primary is-light">Manual trigger</b-button>
     </div>
 
     <PushPrBuilder type="push" />
