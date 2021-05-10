@@ -1,5 +1,6 @@
 <template>
-  <div class="pushpr">
+  <div class="push-pr-builder">
+    {{ type }}
     <div class="buttons">
       <b-button v-on:click="onComplete" class="is-primary is-light">
         to branch ...
@@ -14,9 +15,9 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-@Component()
+@Component
 export default class PushPrBuilder extends Vue {
-  @Prop({ required: true }) private readonly type!: "push" | "pr";
+  @Prop({ required: true }) private readonly type!: "pull_request" | "push";
   @Prop({ default: () => () => null }) private readonly onComplete!: () => void;
 }
 </script>

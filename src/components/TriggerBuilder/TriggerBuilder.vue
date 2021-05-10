@@ -3,31 +3,40 @@
     <h1 class="title">Triggers</h1>
     <h2 class="subtitle">This workflow will be triggered on these events.</h2>
 
-    <div class="buttons">
+    <div>TODO: Display existing trigger list here</div>
+
+    <div v-if="stage === 'neutral'" @click="addNewTrigger" class="buttons">
       <b-button class="is-primary">Add</b-button>
     </div>
 
-    <div v-if="!building" class="buttons">
-      <b-button v-if="!push" v-on:click="setPush" type="is-primary is-light">
+    <div v-if="stage === 'pick-type'" class="buttons">
+      <b-button v-if="!push" @click="setPush" :type="typePickBtnClass">
         Push
       </b-button>
-      <b-button v-if="!pr" type="is-primary is-light"> Pull Request </b-button>
-      <b-button v-if="!manual" type="is-primary is-light"> Schedule </b-button>
-      <b-button v-if="!schedule" type="is-primary is-light">
+      <b-button v-if="!pr" @click="setPr" :type="typePickBtnClass">
+        Pull Request
+      </b-button>
+      <b-button v-if="!schedule" @click="setSchedule" :type="typePickBtnClass">
+        Schedule
+      </b-button>
+      <b-button v-if="!manual" @click="setManual" :type="typePickBtnClass">
         Manual trigger
       </b-button>
     </div>
 
-    <PushPrBuilder
-      v-if="building === 'push' || building === 'pull_request'"
-      :type="building"
-      :on-complete="onBuildComplete"
-    />
+    <div v-if="stage === 'build'">
+      <PushPrBuilder
+        v-if="buildType === 'push' || buildType === 'pull_request'"
+        :type="buildType"
+        :on-complete="onBuildComplete"
+      />
+      <div>TODO: schedule builder</div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { workflow } from "@/store";
+import { workflow, setManual } from "@/store";
 import { Trigger } from "@/types/Trigger/trigger";
 import { Vue, Component } from "vue-property-decorator";
 import PushPrBuilder from "@/components/TriggerBuilder/PushPrBuilder.vue";
@@ -43,16 +52,41 @@ import PushPrBuilder from "@/components/TriggerBuilder/PushPrBuilder.vue";
   methods: {},
 })
 export default class TriggerBuilder extends Vue {
-  private building: keyof Trigger | null = null;
+  private buildType: BuildType | null = null;
+  private stage: BuilderStage = "neutral";
+  private typePickBtnClass = "is-primary is-light";
 
   setPush(): void {
-    this.building = "push";
+    this.stage = "build";
+    this.buildType = "push";
+  }
+
+  setPr(): void {
+    this.stage = "build";
+    this.buildType = "pull_request";
+  }
+
+  setSchedule(): void {
+    this.stage = "build";
+    this.buildType = "schedule";
+  }
+
+  setManual(): void {
+    setManual();
+    this.onBuildComplete();
+  }
+
+  addNewTrigger(): void {
+    this.stage = "pick-type";
   }
 
   onBuildComplete(): void {
-    this.building = null;
+    this.stage = "neutral";
+    this.buildType = null;
   }
 }
+type BuildType = keyof Trigger;
+type BuilderStage = "neutral" | "pick-type" | "build";
 </script>
 
 <style lang="scss" scoped></style>
