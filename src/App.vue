@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
     <TriggerBuilder />
-    <JobBuilder />
+    <JobsBuilder />
   </div>
 </template>
 
@@ -11,7 +11,7 @@ import TriggerBuilder from "./components/TriggerBuilder/TriggerBuilder.vue";
 import JobsBuilder from "@/components/JobsBuilder/JobsBuilder.vue";
 
 @Component({
-  components: { TriggerBuilder, JobBuilder: JobsBuilder },
+  components: { TriggerBuilder, JobsBuilder },
 })
 export default class App extends Vue {}
 </script>
