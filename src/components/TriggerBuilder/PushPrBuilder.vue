@@ -1,6 +1,6 @@
 <template>
   <div class="push-pr-builder">
-    {{ type }}
+    {{ type }} (TODO: format this text)
     <div class="buttons">
       <b-button v-on:click="onComplete" class="is-primary is-light">
         to branch ...
