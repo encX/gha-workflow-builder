@@ -30,7 +30,7 @@
         :type="buildType"
         :on-complete="onBuildComplete"
       />
-      <div>TODO: schedule builder</div>
+      <div v-if="buildType === 'schedule'">TODO: schedule builder</div>
     </div>
   </div>
 </template>
