@@ -1,6 +1,6 @@
 export interface PushPrConfig {
-  branches: string[];
-  tags: string[];
-  "branches-ignore": string[];
-  "tags-ignore": string[];
+  branches?: string[];
+  tags?: string[];
+  "branches-ignore"?: string[];
+  "tags-ignore"?: string[];
 }

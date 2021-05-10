@@ -1,7 +1,9 @@
 <template>
   <div class="pushpr">
     <div class="buttons">
-      <b-button class="is-primary is-light">to branch ...</b-button>
+      <b-button v-on:click="onComplete" class="is-primary is-light">
+        to branch ...
+      </b-button>
       <b-button class="is-primary is-light">to all branch except ...</b-button>
       <b-button class="is-primary is-light">to tag ...</b-button>
       <b-button class="is-primary is-light">to all tag except ...</b-button>
@@ -12,9 +14,10 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-@Component
+@Component()
 export default class PushPrBuilder extends Vue {
   @Prop({ required: true }) private readonly type!: "push" | "pr";
+  @Prop({ default: () => () => null }) private readonly onComplete!: () => void;
 }
 </script>
 
