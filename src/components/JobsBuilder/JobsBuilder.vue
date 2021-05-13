@@ -12,7 +12,9 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+
 import JobBuilder from "@/components/JobsBuilder/JobBuilder.vue";
 
 @Component({

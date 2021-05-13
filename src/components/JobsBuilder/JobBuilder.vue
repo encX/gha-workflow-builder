@@ -42,8 +42,10 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+
 import { GitHubRunner } from "@/types/Job/job";
-import { Vue, Component } from "vue-property-decorator";
 
 @Component
 export default class JobBuilder extends Vue {

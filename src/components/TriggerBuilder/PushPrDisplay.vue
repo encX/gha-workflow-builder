@@ -27,11 +27,12 @@
 </template>
 
 <script lang="ts">
-import BranchDisplay from "@/components/TriggerBuilder/BranchDisplay.vue";
-import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
-import { PushPrConfig } from "@/types/Trigger/pushPrConfig";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+
+import { PushPrConfig } from "@/types/Trigger/pushPrConfig";
+import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
+import BranchDisplay from "@/components/TriggerBuilder/BranchDisplay.vue";
 
 @Component({
   components: { BranchDisplay },

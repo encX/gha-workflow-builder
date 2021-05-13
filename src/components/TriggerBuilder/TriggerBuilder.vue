@@ -32,21 +32,29 @@
         v-if="buildType === 'push' || buildType === 'pull_request'"
         :type="buildType"
         :on-complete="onBuildComplete"
+        :on-cancel="onBuilderCancel"
       />
-      <div v-if="buildType === 'schedule'">TODO: schedule builder</div>
+      <ScheduleBuilder
+        v-if="buildType === 'schedule'"
+        :on-complete="onBuildComplete"
+        :on-cancel="onBuilderCancel"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+
 import { workflow, setManual } from "@/store";
 import { Trigger } from "@/types/Trigger/trigger";
-import { Vue, Component } from "vue-property-decorator";
 import PushPrBuilder from "@/components/TriggerBuilder/PushPrBuilder.vue";
 import PushPrDisplay from "@/components/TriggerBuilder/PushPrDisplay.vue";
+import ScheduleBuilder from "@/components/TriggerBuilder/ScheduleBuilder.vue";
 
 @Component({
-  components: { PushPrBuilder, PushPrDisplay },
+  components: { PushPrBuilder, PushPrDisplay, ScheduleBuilder },
   computed: {
     push: () => workflow.on?.push,
     pr: () => workflow.on?.pull_request,
@@ -81,6 +89,10 @@ export default class TriggerBuilder extends Vue {
   }
 
   private onClickAddNew(): void {
+    this.stage = "pick-type";
+  }
+
+  private onBuilderCancel(): void {
     this.stage = "pick-type";
   }
 

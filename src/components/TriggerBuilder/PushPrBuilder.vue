@@ -1,6 +1,6 @@
 <template>
   <div class="push-pr-builder">
-    <h4 class="title is-4">{{ title }}</h4>
+    <h5 class="title is-5">{{ title }} {{ fieldText }}</h5>
 
     <div class="buttons" v-if="stage === 'neutral'">
       <b-button
@@ -31,10 +31,12 @@
       >
         to all tag except ...
       </b-button>
+
+      <b-button class="button" @click="onCancel">Cancel</b-button>
     </div>
 
     <div v-else>
-      <b-field :label="fieldText">
+      <b-field :message="helperText">
         <b-taginput
           v-model="list"
           ellipsis
@@ -44,21 +46,33 @@
         </b-taginput>
       </b-field>
 
-      <b-button class="button is-primary" @click="done">Done</b-button>
+      <div class="buttons">
+        <b-button
+          class="button is-primary"
+          @click="done"
+          :disabled="list.length === 0"
+        >
+          Done
+        </b-button>
+        <b-button class="button" @click="back">Back</b-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
+import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
+
 import { setPr, setPush } from "@/store";
 import { PushPrConfig } from "@/types/Trigger/pushPrConfig";
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 
 @Component
 export default class PushPrBuilder extends Vue {
   @Prop({ required: true }) private readonly type!: "pull_request" | "push";
   @Prop({ default: () => () => null }) private readonly onComplete!: () => void;
+  @Prop({ default: () => () => null }) private readonly onCancel!: () => void;
 
   private config: PushPrConfig = {};
   private list: string[] = [];
@@ -84,6 +98,10 @@ export default class PushPrBuilder extends Vue {
     if (this.stage === "neutral") return;
     if (this.list.length !== 0) this.exportTrigger();
     this.onComplete();
+  }
+
+  private back(): void {
+    this.stage = "neutral";
   }
 
   private get canUseBranch(): boolean {
@@ -125,6 +143,21 @@ export default class PushPrBuilder extends Vue {
         return "to all branches except";
       case "tags-ignore":
         return "to all tags except";
+      default:
+        return "";
+    }
+  }
+
+  private get helperText(): string {
+    const typeName = getTriggerTitle(this.type);
+
+    switch (this.stage) {
+      case "branches":
+      case "branches-ignore":
+        return `"${typeName} to branch" and "${typeName} to all branch excluding specifics" options can not be used together`;
+      case "tags":
+      case "tags-ignore":
+        return `"${typeName} to tag" and "${typeName} to all tag excluding specifics" options can not be used together`;
       default:
         return "";
     }
