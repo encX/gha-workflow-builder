@@ -3,23 +3,26 @@
     <h1 class="title">Triggers</h1>
     <h2 class="subtitle">This workflow will be triggered on these events.</h2>
 
-    <div>TODO: Display existing trigger list here</div>
+    <div class="content">
+      <PushPrDisplay type="push" :config="push" />
+      <PushPrDisplay type="pull_request" :config="pr" />
+    </div>
 
-    <div v-if="stage === 'neutral'" @click="addNewTrigger" class="buttons">
+    <div v-if="stage === 'neutral'" @click="onClickAddNew" class="buttons">
       <b-button class="is-primary">Add</b-button>
     </div>
 
     <div v-if="stage === 'pick-type'" class="buttons">
-      <b-button v-if="!push" @click="setPush" :type="typePickBtnClass">
+      <b-button v-if="!push" @click="onClickPush" :type="subBtnClass">
         Push
       </b-button>
-      <b-button v-if="!pr" @click="setPr" :type="typePickBtnClass">
+      <b-button v-if="!pr" @click="onClickPr" :type="subBtnClass">
         Pull Request
       </b-button>
-      <b-button v-if="!schedule" @click="setSchedule" :type="typePickBtnClass">
+      <b-button v-if="!schedule" @click="onClickSchedule" :type="subBtnClass">
         Schedule
       </b-button>
-      <b-button v-if="!manual" @click="setManual" :type="typePickBtnClass">
+      <b-button v-if="!manual" @click="onClickManual" :type="subBtnClass">
         Manual trigger
       </b-button>
     </div>
@@ -40,9 +43,10 @@ import { workflow, setManual } from "@/store";
 import { Trigger } from "@/types/Trigger/trigger";
 import { Vue, Component } from "vue-property-decorator";
 import PushPrBuilder from "@/components/TriggerBuilder/PushPrBuilder.vue";
+import PushPrDisplay from "@/components/TriggerBuilder/PushPrDisplay.vue";
 
 @Component({
-  components: { PushPrBuilder },
+  components: { PushPrBuilder, PushPrDisplay },
   computed: {
     push: () => workflow.on?.push,
     pr: () => workflow.on?.pull_request,
@@ -54,33 +58,33 @@ import PushPrBuilder from "@/components/TriggerBuilder/PushPrBuilder.vue";
 export default class TriggerBuilder extends Vue {
   private buildType: BuildType | null = null;
   private stage: BuilderStage = "neutral";
-  private typePickBtnClass = "is-primary is-light";
+  private subBtnClass = "is-primary is-light";
 
-  setPush(): void {
+  private onClickPush(): void {
     this.stage = "build";
     this.buildType = "push";
   }
 
-  setPr(): void {
+  private onClickPr(): void {
     this.stage = "build";
     this.buildType = "pull_request";
   }
 
-  setSchedule(): void {
+  private onClickSchedule(): void {
     this.stage = "build";
     this.buildType = "schedule";
   }
 
-  setManual(): void {
+  private onClickManual(): void {
     setManual();
     this.onBuildComplete();
   }
 
-  addNewTrigger(): void {
+  private onClickAddNew(): void {
     this.stage = "pick-type";
   }
 
-  onBuildComplete(): void {
+  private onBuildComplete(): void {
     this.stage = "neutral";
     this.buildType = null;
   }
