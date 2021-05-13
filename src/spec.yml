@@ -1,0 +1,33 @@
+# This project currently support scaffold for these syntax
+
+name: Your workflow name
+
+on:
+  pull_request:
+    branches:
+      - main
+      - '!rg-*'
+  push:
+    branches:
+      - main
+      - '!rg-*'
+  schedule:
+    - cron: '0 0 * * *'
+
+  workflow_dispatch:
+
+jobs:
+  job-name:
+    runs-on: ubuntu-latest
+    env:
+      VARNAME: value
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+
+      - name: Your step
+        run: some-script
+        env:
+          VARNAME: value
+
