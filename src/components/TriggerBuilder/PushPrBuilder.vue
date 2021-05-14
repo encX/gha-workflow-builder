@@ -1,6 +1,6 @@
 <template>
   <div class="push-pr-builder">
-    <h5 class="title is-5">{{ title }} {{ fieldText }}</h5>
+    <h5 class="title is-5">On {{ title }} {{ fieldText }}</h5>
 
     <div class="buttons" v-if="stage === 'neutral'">
       <b-button
@@ -115,7 +115,7 @@ export default class PushPrBuilder extends Vue {
   }
 
   private get title(): string {
-    return getTriggerTitle(this.type);
+    return getTriggerTitle(this.type).toLowerCase();
   }
 
   private get placeHolderText(): string {

@@ -13,18 +13,19 @@
     </div>
 
     <div v-if="stage === 'pick-type'" class="buttons">
-      <b-button v-if="!push" @click="onClickPush" :type="subBtnClass">
+      <b-button v-if="canAddPush" @click="onClickPush" :type="subBtnClass">
         Push
       </b-button>
-      <b-button v-if="!pr" @click="onClickPr" :type="subBtnClass">
+      <b-button v-if="canAddPr" @click="onClickPr" :type="subBtnClass">
         Pull Request
       </b-button>
-      <b-button v-if="!schedule" @click="onClickSchedule" :type="subBtnClass">
+      <b-button @click="onClickSchedule" :type="subBtnClass">
         Schedule
       </b-button>
       <b-button v-if="!manual" @click="onClickManual" :type="subBtnClass">
         Manual trigger
       </b-button>
+      <b-button @click="onBuildComplete">Cancel</b-button>
     </div>
 
     <div v-if="stage === 'build'">
@@ -57,7 +58,16 @@ import ScheduleBuilder from "@/components/TriggerBuilder/ScheduleBuilder.vue";
   components: { PushPrBuilder, PushPrDisplay, ScheduleBuilder },
   computed: {
     push: () => workflow.on?.push,
+    canAddPush: () =>
+      (!workflow.on?.push?.branches ||
+        !workflow.on?.push?.["branches-ignore"]) &&
+      (!workflow.on?.push?.tags || !workflow.on?.push?.["tags-ignore"]),
     pr: () => workflow.on?.pull_request,
+    canAddPr: () =>
+      (!workflow.on?.pull_request?.branches ||
+        !workflow.on?.pull_request?.["branches-ignore"]) &&
+      (!workflow.on?.pull_request?.tags ||
+        !workflow.on?.pull_request?.["tags-ignore"]),
     schedule: () => workflow.on?.schedule,
     manual: () => workflow.on?.workflow_dispatch,
   },
