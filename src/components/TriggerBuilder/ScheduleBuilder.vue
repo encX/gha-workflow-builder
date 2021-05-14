@@ -1,7 +1,10 @@
 <template>
   <div>
     <h4 class="title is-5">Schedule</h4>
-    <b-field grouped>
+    <b-field
+      message="Learn more about crontab syntax: https://crontab.guru/"
+      grouped
+    >
       <b-input placeholder="crontab syntax" />
     </b-field>
     <div class="buttons">

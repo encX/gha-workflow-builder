@@ -59,14 +59,14 @@ import ScheduleBuilder from "@/components/TriggerBuilder/ScheduleBuilder.vue";
   computed: {
     push: () => workflow.on?.push,
     canAddPush: () =>
-      (!workflow.on?.push?.branches ||
-        !workflow.on?.push?.["branches-ignore"]) &&
-      (!workflow.on?.push?.tags || !workflow.on?.push?.["tags-ignore"]),
+      (!workflow.on?.push?.branches &&
+        !workflow.on?.push?.["branches-ignore"]) ||
+      (!workflow.on?.push?.tags && !workflow.on?.push?.["tags-ignore"]),
     pr: () => workflow.on?.pull_request,
     canAddPr: () =>
-      (!workflow.on?.pull_request?.branches ||
-        !workflow.on?.pull_request?.["branches-ignore"]) &&
-      (!workflow.on?.pull_request?.tags ||
+      (!workflow.on?.pull_request?.branches &&
+        !workflow.on?.pull_request?.["branches-ignore"]) ||
+      (!workflow.on?.pull_request?.tags &&
         !workflow.on?.pull_request?.["tags-ignore"]),
     schedule: () => workflow.on?.schedule,
     manual: () => workflow.on?.workflow_dispatch,
