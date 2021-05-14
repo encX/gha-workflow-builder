@@ -1,10 +1,11 @@
 <template>
   <div>
     <h4 class="title is-5">Schedule</h4>
-    <b-field
-      message="Learn more about crontab syntax: https://crontab.guru/"
-      grouped
-    >
+    <b-field grouped>
+      <template v-slot:message>
+        Learn more about syntax at
+        <a href="https://crontab.guru/" target="_blank">crontab guru</a>.
+      </template>
       <b-input placeholder="crontab syntax" v-model="newCron" />
     </b-field>
     <div class="buttons">

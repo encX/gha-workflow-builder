@@ -2,41 +2,46 @@
   <div class="push-pr-builder">
     <h5 class="title is-5">On {{ title }} {{ fieldText }}</h5>
 
-    <div class="buttons" v-if="stage === 'neutral'">
-      <b-button
-        v-if="canUseBranch"
-        @click="setStage('branches')"
-        class="is-primary is-light"
-      >
-        to branch ...
-      </b-button>
-      <b-button
-        v-if="canUseBranch"
-        @click="setStage('branches-ignore')"
-        class="is-primary is-light"
-      >
-        to all branch except ...
-      </b-button>
-      <b-button
-        v-if="canUseTag"
-        @click="setStage('tags')"
-        class="is-primary is-light"
-      >
-        to tag ...
-      </b-button>
-      <b-button
-        v-if="canUseTag"
-        @click="setStage('tags-ignore')"
-        class="is-primary is-light"
-      >
-        to all tag except ...
-      </b-button>
-
-      <b-button class="button" @click="onCancel">Cancel</b-button>
+    <div v-if="stage === 'neutral'">
+      <div class="buttons">
+        <b-button
+          v-if="canUseBranch"
+          @click="setStage('branches')"
+          class="is-primary is-light"
+        >
+          to branch ...
+        </b-button>
+        <b-button
+          v-if="canUseBranch"
+          @click="setStage('branches-ignore')"
+          class="is-primary is-light"
+        >
+          to all branch except ...
+        </b-button>
+        <b-button
+          v-if="canUseTag"
+          @click="setStage('tags')"
+          class="is-primary is-light"
+        >
+          to tag ...
+        </b-button>
+        <b-button
+          v-if="canUseTag"
+          @click="setStage('tags-ignore')"
+          class="is-primary is-light"
+        >
+          to all tag except ...
+        </b-button>
+        <b-button class="button" @click="onCancel">Cancel</b-button>
+      </div>
+      <p class="is-size-7">
+        * Positive filter (to branch/tag) and negative filter (to all branch/tag
+        except) can't be used together
+      </p>
     </div>
 
     <div v-else>
-      <b-field :message="helperText">
+      <b-field>
         <b-taginput
           v-model="list"
           ellipsis
@@ -147,21 +152,6 @@ export default class PushPrBuilder extends Vue {
         return "to all branches except";
       case "tags-ignore":
         return "to all tags except";
-      default:
-        return "";
-    }
-  }
-
-  private get helperText(): string {
-    const typeName = getTriggerTitle(this.type);
-
-    switch (this.stage) {
-      case "branches":
-      case "branches-ignore":
-        return `"${typeName} to branch" and "${typeName} to all branch excluding specifics" options can not be used together`;
-      case "tags":
-      case "tags-ignore":
-        return `"${typeName} to tag" and "${typeName} to all tag excluding specifics" options can not be used together`;
       default:
         return "";
     }

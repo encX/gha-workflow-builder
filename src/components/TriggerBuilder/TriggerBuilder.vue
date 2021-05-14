@@ -30,19 +30,20 @@
       <b-button @click="onBuildComplete">Cancel</b-button>
     </div>
 
-    <div v-if="stage === 'build'">
-      <PushPrBuilder
-        v-if="buildType === 'push' || buildType === 'pull_request'"
-        :type="buildType"
-        :on-complete="onBuildComplete"
-        :on-cancel="onBuilderCancel"
-      />
-      <ScheduleBuilder
-        v-if="buildType === 'schedule'"
-        :on-complete="onBuildComplete"
-        :on-cancel="onBuilderCancel"
-      />
-    </div>
+    <PushPrBuilder
+      v-if="
+        stage === 'build' &&
+        (buildType === 'push' || buildType === 'pull_request')
+      "
+      :type="buildType"
+      :on-complete="onBuildComplete"
+      :on-cancel="onBuilderCancel"
+    />
+    <ScheduleBuilder
+      v-if="stage === 'build' && buildType === 'schedule'"
+      :on-complete="onBuildComplete"
+      :on-cancel="onBuilderCancel"
+    />
   </div>
 </template>
 
