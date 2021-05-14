@@ -64,7 +64,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
-import { setPr, setPush } from "@/store";
+import { setPr, setPush, workflow } from "@/store";
 import { PushPrConfig } from "@/types/Trigger/pushPrConfig";
 import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 
@@ -77,6 +77,10 @@ export default class PushPrBuilder extends Vue {
   private config: PushPrConfig = {};
   private list: string[] = [];
   private stage: BuilderStage = "neutral";
+
+  created(): void {
+    this.config = workflow.on?.[this.type] ?? {};
+  }
 
   private setStage(stage: BuilderStage): void {
     this.stage = stage;
