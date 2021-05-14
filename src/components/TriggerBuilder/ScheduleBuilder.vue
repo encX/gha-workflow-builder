@@ -16,10 +16,11 @@
 </template>
 
 <script lang="ts">
-import { setSchedule, workflow } from "@/store";
-import { CronConfig } from "@/types/Trigger/cronConfig";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+
+import { setSchedule, workflow } from "@/store";
+import { CronConfig } from "@/types/Trigger/cronConfig";
 
 @Component
 export default class ScheduleBuilder extends Vue {
