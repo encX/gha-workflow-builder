@@ -1,29 +1,27 @@
 <template>
-  <ul v-if="config">
-    <li>
-      {{ Type }}
-      <BranchDisplay
-        target-text="To these branches"
-        :list="config.branches"
-        v-if="config.branches"
-      />
-      <BranchDisplay
-        target-text="To all branches except"
-        :list="config['branches-ignore']"
-        v-if="config['branches-ignore']"
-      />
-      <BranchDisplay
-        target-text="To these tags"
-        :list="config.tags"
-        v-if="config.tags"
-      />
-      <BranchDisplay
-        target-text="To all tag except"
-        :list="config['tags-ignore']"
-        v-if="config['tags-ignore']"
-      />
-    </li>
-  </ul>
+  <div v-if="config">
+    <h4 class="title">{{ Type }}</h4>
+    <BranchDisplay
+      target-text="To these branches"
+      :list="config.branches"
+      v-if="config.branches"
+    />
+    <BranchDisplay
+      target-text="To all branches except"
+      :list="config['branches-ignore']"
+      v-if="config['branches-ignore']"
+    />
+    <BranchDisplay
+      target-text="To these tags"
+      :list="config.tags"
+      v-if="config.tags"
+    />
+    <BranchDisplay
+      target-text="To all tag except"
+      :list="config['tags-ignore']"
+      v-if="config['tags-ignore']"
+    />
+  </div>
 </template>
 
 <script lang="ts">

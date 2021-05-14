@@ -6,6 +6,8 @@
     <div class="content">
       <PushPrDisplay type="push" :config="push" />
       <PushPrDisplay type="pull_request" :config="pr" />
+      <ScheduleDisplay :config="schedule" />
+      <h4 v-if="manual" class="title">Manual trigger</h4>
     </div>
 
     <div v-if="stage === 'neutral'" @click="onClickAddNew" class="buttons">
@@ -53,9 +55,15 @@ import { Trigger } from "@/types/Trigger/trigger";
 import PushPrBuilder from "@/components/TriggerBuilder/PushPrBuilder.vue";
 import PushPrDisplay from "@/components/TriggerBuilder/PushPrDisplay.vue";
 import ScheduleBuilder from "@/components/TriggerBuilder/ScheduleBuilder.vue";
+import ScheduleDisplay from "@/components/TriggerBuilder/ScheduleDisplay.vue";
 
 @Component({
-  components: { PushPrBuilder, PushPrDisplay, ScheduleBuilder },
+  components: {
+    PushPrBuilder,
+    PushPrDisplay,
+    ScheduleBuilder,
+    ScheduleDisplay,
+  },
   computed: {
     push: () => workflow.on?.push,
     canAddPush: () =>
