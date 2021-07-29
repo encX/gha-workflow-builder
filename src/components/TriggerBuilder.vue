@@ -3,14 +3,10 @@
     <h1 class="title">Triggers</h1>
     <h2 class="subtitle">This workflow will be triggered on these events.</h2>
 
-    <div class="content">
-      <PushPrDisplay type="push" :config="push" />
-      <PushPrDisplay type="pull_request" :config="pr" />
-      <ScheduleDisplay :config="schedule" />
-      <ul v-if="manual">
-        <li>Manual trigger</li>
-      </ul>
-    </div>
+    <PushPrDisplay type="push" :config="push" />
+    <PushPrDisplay type="pull_request" :config="pr" />
+    <ScheduleDisplay :config="schedule" />
+    <ManualDisplay v-if="manual" />
 
     <div v-if="stage === 'neutral'" @click="onClickAddNew" class="buttons">
       <b-button class="is-primary">Add</b-button>
@@ -73,6 +69,7 @@ import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
 import PushPrDisplay from "@/components/TriggerBuilders/PushPrDisplay.vue";
 import ScheduleBuilder from "@/components/TriggerBuilders/ScheduleBuilder.vue";
 import ScheduleDisplay from "@/components/TriggerBuilders/ScheduleDisplay.vue";
+import ManualDisplay from "@/components/TriggerBuilders/ManualDisplay.vue";
 
 @Component({
   components: {
@@ -80,6 +77,7 @@ import ScheduleDisplay from "@/components/TriggerBuilders/ScheduleDisplay.vue";
     PushPrDisplay,
     ScheduleBuilder,
     ScheduleDisplay,
+    ManualDisplay,
   },
   computed: {
     push: () => workflow.on?.push,
@@ -139,5 +137,3 @@ export default class TriggerBuilder extends Vue {
 type BuildType = keyof Trigger;
 type BuilderStage = "neutral" | "pick-type" | "build";
 </script>
-
-<style lang="scss" scoped></style>

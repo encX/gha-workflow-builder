@@ -165,5 +165,3 @@ type BuilderStage =
   | "branches-ignore"
   | "tags-ignore";
 </script>
-
-<style scoped></style>

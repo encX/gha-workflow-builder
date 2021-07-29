@@ -41,5 +41,3 @@ export default class ScheduleBuilder extends Vue {
   }
 }
 </script>
-
-<style scoped></style>

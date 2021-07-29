@@ -22,5 +22,3 @@ import JobBuilder from "@/components/JobsBuilders/JobBuilder.vue";
 })
 export default class JobsBuilder extends Vue {}
 </script>
-
-<style lang="scss" scoped></style>

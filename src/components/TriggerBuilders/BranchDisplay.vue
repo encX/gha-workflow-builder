@@ -1,7 +1,8 @@
 <template>
-  <li>
-    {{ targetText }}: <b>{{ list.join(", ") }}</b>
-  </li>
+  <div>
+    {{ targetText }}:
+    <b-tag v-for="item in list" v-bind:key="item">{{ item }}</b-tag>
+  </div>
 </template>
 
 <script lang="ts">
@@ -14,5 +15,3 @@ export default class BranchDisplay extends Vue {
   @Prop({ required: true }) private readonly list!: string[];
 }
 </script>
-
-<style scoped></style>

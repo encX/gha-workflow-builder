@@ -1,5 +1,5 @@
 <template>
-  <ul v-if="config">
+  <Rows v-if="config">
     <BranchDisplay
       :target-text="`${Type} to branch`"
       :list="config.branches"
@@ -20,7 +20,7 @@
       :list="config['tags-ignore']"
       v-if="config['tags-ignore']"
     />
-  </ul>
+  </Rows>
 </template>
 
 <script lang="ts">
@@ -30,9 +30,10 @@ import { Component, Prop } from "vue-property-decorator";
 import { PushPrConfig } from "@/types/Trigger/pushPrConfig";
 import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 import BranchDisplay from "@/components/TriggerBuilders/BranchDisplay.vue";
+import Rows from "@/components/DisplayAid/Rows.vue";
 
 @Component({
-  components: { BranchDisplay },
+  components: { BranchDisplay, Rows },
 })
 export default class PushPrDisplay extends Vue {
   @Prop({ required: true }) private readonly type!: "pull_request" | "push";
@@ -43,5 +44,3 @@ export default class PushPrDisplay extends Vue {
   }
 }
 </script>
-
-<style scoped></style>

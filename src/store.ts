@@ -4,7 +4,22 @@ import { Workflow } from "@/types/workflow";
 import Vue from "vue";
 
 export const workflow: Workflow = Vue.observable({
-  on: undefined,
+  on: {
+    push: {
+      branches: ["a", "b", "c"],
+      "branches-ignore": ["def", "ghi"],
+      tags: ["v1.*", "v2.*"],
+      "tags-ignore": ["v3.1.*"],
+    },
+    pull_request: {
+      branches: ["a", "b", "c"],
+      "branches-ignore": ["def", "ghi"],
+      tags: ["v1.*", "v2.*"],
+      "tags-ignore": ["v3.1.*"],
+    },
+    schedule: [{ cron: "0 0,12 * * *" }, { cron: "0 0 1 * *" }],
+    workflow_dispatch: {},
+  },
   name: undefined,
   jobs: undefined,
 });
