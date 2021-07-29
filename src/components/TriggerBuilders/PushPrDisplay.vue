@@ -6,6 +6,7 @@
       v-if="config.branches"
     />
     <BranchDisplay
+      display-type="is-danger"
       :target-text="`${Type} to all branches except`"
       :list="config['branches-ignore']"
       v-if="config['branches-ignore']"
@@ -16,6 +17,7 @@
       v-if="config.tags"
     />
     <BranchDisplay
+      display-type="is-danger"
       :target-text="`${Type} to all tags except`"
       :list="config['tags-ignore']"
       v-if="config['tags-ignore']"
