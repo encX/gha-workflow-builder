@@ -1,27 +1,26 @@
 <template>
-  <div v-if="config">
-    <h4 class="title">{{ Type }}</h4>
+  <ul v-if="config">
     <BranchDisplay
-      target-text="To these branches"
+      :target-text="`${Type} to branch`"
       :list="config.branches"
       v-if="config.branches"
     />
     <BranchDisplay
-      target-text="To all branches except"
+      :target-text="`${Type} to all branches except`"
       :list="config['branches-ignore']"
       v-if="config['branches-ignore']"
     />
     <BranchDisplay
-      target-text="To these tags"
+      :target-text="`${Type} to tags`"
       :list="config.tags"
       v-if="config.tags"
     />
     <BranchDisplay
-      target-text="To all tag except"
+      :target-text="`${Type} to all tags except`"
       :list="config['tags-ignore']"
       v-if="config['tags-ignore']"
     />
-  </div>
+  </ul>
 </template>
 
 <script lang="ts">
@@ -30,7 +29,7 @@ import { Component, Prop } from "vue-property-decorator";
 
 import { PushPrConfig } from "@/types/Trigger/pushPrConfig";
 import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
-import BranchDisplay from "@/components/TriggerBuilder/BranchDisplay.vue";
+import BranchDisplay from "@/components/TriggerBuilders/BranchDisplay.vue";
 
 @Component({
   components: { BranchDisplay },

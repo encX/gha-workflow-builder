@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="box">
     <h4 class="title is-5">Schedule</h4>
     <b-field grouped>
       <template v-slot:message>

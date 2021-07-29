@@ -1,10 +1,9 @@
 <template>
-  <div v-if="config">
-    <h4 class="title">Schedule</h4>
-    <ul>
-      <li v-for="({ cron }, index) in config" :key="index">cron: {{ cron }}</li>
-    </ul>
-  </div>
+  <ul v-if="config">
+    <li v-for="({ cron }, index) in config" :key="index">
+      Schedule: <b>{{ cron }}</b>
+    </li>
+  </ul>
 </template>
 
 <script lang="ts">

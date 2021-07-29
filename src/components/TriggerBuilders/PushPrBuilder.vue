@@ -1,5 +1,5 @@
 <template>
-  <div class="push-pr-builder">
+  <div class="push-pr-builder box">
     <h5 class="title is-5">On {{ title }} {{ fieldText }}</h5>
 
     <div v-if="stage === 'neutral'">

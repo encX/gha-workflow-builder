@@ -1,5 +1,5 @@
 <template>
-  <div class="trigger box">
+  <section class="trigger section">
     <h1 class="title">Triggers</h1>
     <h2 class="subtitle">This workflow will be triggered on these events.</h2>
 
@@ -7,7 +7,9 @@
       <PushPrDisplay type="push" :config="push" />
       <PushPrDisplay type="pull_request" :config="pr" />
       <ScheduleDisplay :config="schedule" />
-      <h4 v-if="manual" class="title">Manual trigger</h4>
+      <ul v-if="manual">
+        <li>Manual trigger</li>
+      </ul>
     </div>
 
     <div v-if="stage === 'neutral'" @click="onClickAddNew" class="buttons">
@@ -15,19 +17,33 @@
     </div>
 
     <div v-if="stage === 'pick-type'" class="buttons">
-      <b-button v-if="canAddPush" @click="onClickPush" :type="subBtnClass">
+      <b-button
+        icon-left="plus"
+        v-if="canAddPush"
+        @click="onClickPush"
+        :type="subBtnClass"
+      >
         Push
       </b-button>
-      <b-button v-if="canAddPr" @click="onClickPr" :type="subBtnClass">
+      <b-button
+        icon-left="plus"
+        v-if="canAddPr"
+        @click="onClickPr"
+        :type="subBtnClass"
+      >
         Pull Request
       </b-button>
-      <b-button @click="onClickSchedule" :type="subBtnClass">
+      <b-button icon-left="plus" @click="onClickSchedule" :type="subBtnClass">
         Schedule
       </b-button>
-      <b-button v-if="!manual" @click="onClickManual" :type="subBtnClass">
+      <b-button
+        icon-left="plus"
+        v-if="!manual"
+        @click="onClickManual"
+        :type="subBtnClass"
+      >
         Manual trigger
       </b-button>
-      <b-button @click="onBuildComplete">Cancel</b-button>
     </div>
 
     <PushPrBuilder
@@ -44,7 +60,7 @@
       :on-complete="onBuildComplete"
       :on-cancel="onBuilderCancel"
     />
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -53,10 +69,10 @@ import { Component } from "vue-property-decorator";
 
 import { workflow, setManual } from "@/store";
 import { Trigger } from "@/types/Trigger/trigger";
-import PushPrBuilder from "@/components/TriggerBuilder/PushPrBuilder.vue";
-import PushPrDisplay from "@/components/TriggerBuilder/PushPrDisplay.vue";
-import ScheduleBuilder from "@/components/TriggerBuilder/ScheduleBuilder.vue";
-import ScheduleDisplay from "@/components/TriggerBuilder/ScheduleDisplay.vue";
+import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
+import PushPrDisplay from "@/components/TriggerBuilders/PushPrDisplay.vue";
+import ScheduleBuilder from "@/components/TriggerBuilders/ScheduleBuilder.vue";
+import ScheduleDisplay from "@/components/TriggerBuilders/ScheduleDisplay.vue";
 
 @Component({
   components: {
@@ -84,7 +100,7 @@ import ScheduleDisplay from "@/components/TriggerBuilder/ScheduleDisplay.vue";
 })
 export default class TriggerBuilder extends Vue {
   private buildType: BuildType | null = null;
-  private stage: BuilderStage = "neutral";
+  private stage: BuilderStage = "pick-type";
   private subBtnClass = "is-primary is-light";
 
   private onClickPush(): void {
@@ -116,7 +132,7 @@ export default class TriggerBuilder extends Vue {
   }
 
   private onBuildComplete(): void {
-    this.stage = "neutral";
+    this.stage = "pick-type";
     this.buildType = null;
   }
 }

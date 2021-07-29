@@ -1,14 +1,7 @@
 <template>
-  <ul>
-    <li>
-      {{ targetText }}
-      <ul>
-        <li v-for="item in list" :key="item">
-          {{ item }}
-        </li>
-      </ul>
-    </li>
-  </ul>
+  <li>
+    {{ targetText }}: <b>{{ list.join(", ") }}</b>
+  </li>
 </template>
 
 <script lang="ts">
