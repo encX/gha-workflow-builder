@@ -3,8 +3,8 @@
     <h1 class="title">Triggers</h1>
     <h2 class="subtitle">This workflow will be triggered on these events.</h2>
 
-    <PushPrDisplay type="push" :config="push" />
-    <PushPrDisplay type="pull_request" :config="pr" />
+    <PushPrDisplay trigger="push" />
+    <PushPrDisplay trigger="pull_request" />
     <ScheduleDisplay :config="schedule" />
     <ManualDisplay v-if="manual" />
 
@@ -72,12 +72,10 @@ import ManualDisplay from "@/components/TriggerBuilders/ManualDisplay.vue";
     ManualDisplay,
   },
   computed: {
-    push: () => workflow.on?.push,
     canAddPush: () =>
       (!workflow.on?.push?.branches &&
         !workflow.on?.push?.["branches-ignore"]) ||
       (!workflow.on?.push?.tags && !workflow.on?.push?.["tags-ignore"]),
-    pr: () => workflow.on?.pull_request,
     canAddPr: () =>
       (!workflow.on?.pull_request?.branches &&
         !workflow.on?.pull_request?.["branches-ignore"]) ||

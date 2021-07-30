@@ -2,28 +2,28 @@
   <div class="buttons">
     <b-button
       v-if="canUseBranch"
-      @click="stage = 'branches'"
+      @click="setStage('branches')"
       class="is-primary is-light"
     >
       to branch ...
     </b-button>
     <b-button
       v-if="canUseBranch"
-      @click="stage = 'branches-ignore'"
+      @click="setStage('branches-ignore')"
       class="is-primary is-light"
     >
       to all branch except ...
     </b-button>
     <b-button
       v-if="canUseTag"
-      @click="stage = 'tags'"
+      @click="setStage('tags')"
       class="is-primary is-light"
     >
       to tag ...
     </b-button>
     <b-button
       v-if="canUseTag"
-      @click="stage = 'tags-ignore'"
+      @click="setStage('tags-ignore')"
       class="is-primary is-light"
     >
       to all tag except ...
@@ -45,9 +45,10 @@ import {
 
 @Component
 export default class PushPrBuilderButtons extends Vue {
-  private set stage(data: BranchStage) {
+  private setStage(data: BranchStage): void {
     state.currentBranchStage = data;
   }
+
   private onCancel = onTriggerBuilderExit;
 
   private get type(): "pull_request" | "push" {

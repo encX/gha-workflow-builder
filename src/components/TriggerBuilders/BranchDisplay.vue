@@ -1,5 +1,5 @@
 <template>
-  <div class="branch-display">
+  <div class="branch-display" v-if="list">
     <div class="description">
       {{ targetText }}:
       <b-tag
