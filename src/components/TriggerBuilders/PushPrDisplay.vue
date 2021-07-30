@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { deletePushPr, workflow } from "@/store";
+import { deletePushPr, workflow } from "@/stores/Workflow";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { BranchType, PushPrConfig } from "@/types/Trigger/pushPrConfig";
@@ -39,7 +39,7 @@ import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 import BranchDisplay from "@/components/TriggerBuilders/BranchDisplay.vue";
 import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
 import Rows from "@/components/DisplayAid/Rows.vue";
-import { onEditPushPr } from "@/TriggerBuilderState";
+import { onEditPushPr } from "@/stores/TriggerBuilderState";
 
 @Component({
   components: { BranchDisplay, PushPrBuilder, Rows },

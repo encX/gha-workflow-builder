@@ -19,9 +19,9 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-import { setSchedule, workflow } from "@/store";
+import { setSchedule, workflow } from "@/stores/Workflow";
 import { CronConfig } from "@/types/Trigger/cronConfig";
-import { onTriggerBuilderExit } from "@/TriggerBuilderState";
+import { onTriggerBuilderExit } from "@/stores/TriggerBuilderState";
 
 @Component
 export default class ScheduleBuilder extends Vue {

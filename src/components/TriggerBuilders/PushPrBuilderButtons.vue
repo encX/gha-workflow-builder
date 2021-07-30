@@ -37,11 +37,11 @@ import { BranchStage } from "@/types/Trigger/pushPrConfig";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-import { workflow } from "@/store";
+import { workflow } from "@/stores/Workflow";
 import {
   onTriggerBuilderExit,
   triggerBuilderState as state,
-} from "@/TriggerBuilderState";
+} from "@/stores/TriggerBuilderState";
 
 @Component
 export default class PushPrBuilderButtons extends Vue {

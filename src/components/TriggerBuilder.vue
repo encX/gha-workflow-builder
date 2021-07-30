@@ -52,11 +52,11 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-import { workflow, setManual } from "@/store";
+import { workflow, setManual } from "@/stores/Workflow";
 import {
   onTriggerBuilderExit,
   triggerBuilderState as state,
-} from "@/TriggerBuilderState";
+} from "@/stores/TriggerBuilderState";
 import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
 import PushPrDisplay from "@/components/TriggerBuilders/PushPrDisplay.vue";
 import ScheduleBuilder from "@/components/TriggerBuilders/ScheduleBuilder.vue";

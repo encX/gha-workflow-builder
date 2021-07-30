@@ -33,11 +33,11 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-import { setPushPr, workflow } from "@/store";
+import { setPushPr, workflow } from "@/stores/Workflow";
 import {
   onTriggerBuilderExit,
   triggerBuilderState as state,
-} from "@/TriggerBuilderState";
+} from "@/stores/TriggerBuilderState";
 import {
   BranchStage,
   BranchType,
