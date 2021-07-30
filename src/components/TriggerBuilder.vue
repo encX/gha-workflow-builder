@@ -54,7 +54,7 @@ import { Component } from "vue-property-decorator";
 
 import { workflow, setManual } from "@/store";
 import {
-  onTriggerBuilderDone,
+  onTriggerBuilderExit,
   triggerBuilderState as state,
 } from "@/TriggerBuilderState";
 import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
@@ -110,7 +110,7 @@ export default class TriggerBuilder extends Vue {
 
   private onClickManual(): void {
     setManual();
-    onTriggerBuilderDone();
+    onTriggerBuilderExit();
   }
 }
 </script>

@@ -1,23 +1,24 @@
-import { BranchType } from "@/types/Trigger/pushPrConfig";
+import { BranchStage, BranchType } from "@/types/Trigger/pushPrConfig";
 import { Trigger } from "@/types/Trigger/trigger";
 import Vue from "vue";
 
 interface TriggerBuilderState {
   stage: "pick-type" | "build" | "edit";
   currentTriggerBuild: keyof Trigger;
-  currentBranchType: BranchType;
+  currentBranchStage: BranchStage;
   isEditing: boolean;
 }
 
 export const triggerBuilderState: TriggerBuilderState = Vue.observable({
   stage: "pick-type",
   currentTriggerBuild: "push",
-  currentBranchType: "neutral",
+  currentBranchStage: "neutral",
   isEditing: false,
 });
 
-export function onTriggerBuilderDone() {
+export function onTriggerBuilderExit() {
   triggerBuilderState.stage = "pick-type";
+  triggerBuilderState.currentBranchStage = "neutral";
   triggerBuilderState.isEditing = false;
 }
 
@@ -27,5 +28,5 @@ export function onEditPushPr(
 ) {
   triggerBuilderState.stage = "build";
   triggerBuilderState.currentTriggerBuild = trigger;
-  triggerBuilderState.currentBranchType = branchType;
+  triggerBuilderState.currentBranchStage = branchType;
 }

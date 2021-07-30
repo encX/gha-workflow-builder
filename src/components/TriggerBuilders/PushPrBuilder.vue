@@ -3,37 +3,7 @@
     <h5 class="title is-5">On {{ title }} {{ fieldText }}</h5>
 
     <div v-if="stage === 'neutral'">
-      <div class="buttons">
-        <b-button
-          v-if="canUseBranch"
-          @click="setStage('branches')"
-          class="is-primary is-light"
-        >
-          to branch ...
-        </b-button>
-        <b-button
-          v-if="canUseBranch"
-          @click="setStage('branches-ignore')"
-          class="is-primary is-light"
-        >
-          to all branch except ...
-        </b-button>
-        <b-button
-          v-if="canUseTag"
-          @click="setStage('tags')"
-          class="is-primary is-light"
-        >
-          to tag ...
-        </b-button>
-        <b-button
-          v-if="canUseTag"
-          @click="setStage('tags-ignore')"
-          class="is-primary is-light"
-        >
-          to all tag except ...
-        </b-button>
-        <b-button class="button" @click="onCancel">Cancel</b-button>
-      </div>
+      <PushPrBuilderButtons />
       <p class="is-size-7">
         * Positive filter (to branch/tag) and negative filter (to all branch/tag
         except) can't be used together
@@ -52,14 +22,8 @@
       </b-field>
 
       <div class="buttons">
-        <b-button
-          class="button is-primary"
-          @click="done"
-          :disabled="list.length === 0"
-        >
-          Done
-        </b-button>
-        <b-button class="button" @click="back">Back</b-button>
+        <b-button class="button is-primary" @click="onDone"> Done </b-button>
+        <b-button class="button" @click="onCancel">Cancel</b-button>
       </div>
     </div>
   </div>
@@ -67,72 +31,53 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 
 import { setPushPr, workflow } from "@/store";
 import {
-  onTriggerBuilderDone,
+  onTriggerBuilderExit,
   triggerBuilderState as state,
 } from "@/TriggerBuilderState";
-import { BranchType, PushPrConfig } from "@/types/Trigger/pushPrConfig";
+import {
+  BranchStage,
+  BranchType,
+  PushPrConfig,
+} from "@/types/Trigger/pushPrConfig";
 import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
+import PushPrBuilderButtons from "@/components/TriggerBuilders/PushPrBuilderButtons.vue";
 
-@Component
+@Component({
+  components: { PushPrBuilderButtons },
+})
 export default class PushPrBuilder extends Vue {
-  @Prop({ default: () => () => null }) private readonly onComplete!: () => void;
-  @Prop({ default: () => () => null }) private readonly onCancel!: () => void;
-
   private config: PushPrConfig = {};
   private list: string[] = [];
 
-  private get stage(): BranchType {
-    return state.currentBranchType;
+  created(): void {
+    this.config = workflow.on?.[this.type] ?? {};
   }
 
-  private set stage(value: BranchType) {
-    state.currentBranchType = value;
+  private exportTrigger(): void {
+    if (state.currentBranchStage !== "neutral")
+      setPushPr(this.type, state.currentBranchStage, this.list);
+  }
+
+  private onDone(): void {
+    if (this.stage === "neutral") return;
+    this.exportTrigger();
+    onTriggerBuilderExit();
+  }
+
+  private onCancel = onTriggerBuilderExit;
+
+  private get stage(): BranchStage {
+    return state.currentBranchStage;
   }
 
   private get type(): "pull_request" | "push" {
     return state.currentTriggerBuild === "pull_request"
       ? "pull_request"
       : "push";
-  }
-
-  created(): void {
-    this.config = workflow.on?.[this.type] ?? {};
-  }
-
-  private setStage(stage: BuilderStage): void {
-    this.stage = stage;
-  }
-
-  private exportTrigger(): void {
-    setPushPr(this.type, state.currentBranchType, this.list);
-  }
-
-  private done(): void {
-    if (this.stage === "neutral") return;
-    if (this.list.length !== 0) this.exportTrigger();
-    onTriggerBuilderDone();
-  }
-
-  private back(): void {
-    this.stage = "neutral";
-  }
-
-  private get canUseBranch(): boolean {
-    return (
-      !workflow.on?.[this.type]?.branches?.length &&
-      !workflow.on?.[this.type]?.["branches-ignore"]?.length
-    );
-  }
-
-  private get canUseTag(): boolean {
-    return (
-      !workflow.on?.[this.type]?.tags?.length &&
-      !workflow.on?.[this.type]?.["tags-ignore"]?.length
-    );
   }
 
   private get title(): string {
@@ -169,11 +114,4 @@ export default class PushPrBuilder extends Vue {
     }
   }
 }
-
-type BuilderStage =
-  | "neutral"
-  | "branches"
-  | "tags"
-  | "branches-ignore"
-  | "tags-ignore";
 </script>

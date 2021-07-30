@@ -5,4 +5,5 @@ export interface PushPrConfig {
   "tags-ignore"?: string[];
 }
 
-export type BranchType = keyof PushPrConfig | "neutral";
+export type BranchType = keyof PushPrConfig;
+export type BranchStage = BranchType | "neutral";

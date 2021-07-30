@@ -21,7 +21,7 @@ import { Component } from "vue-property-decorator";
 
 import { setSchedule, workflow } from "@/store";
 import { CronConfig } from "@/types/Trigger/cronConfig";
-import { onTriggerBuilderDone } from "@/TriggerBuilderState";
+import { onTriggerBuilderExit } from "@/TriggerBuilderState";
 
 @Component
 export default class ScheduleBuilder extends Vue {
@@ -35,9 +35,9 @@ export default class ScheduleBuilder extends Vue {
   private done(): void {
     this.config = [...this.config, { cron: this.newCron }];
     setSchedule(this.config);
-    onTriggerBuilderDone();
+    onTriggerBuilderExit();
   }
 
-  private onCancel = onTriggerBuilderDone;
+  private onCancel = onTriggerBuilderExit;
 }
 </script>

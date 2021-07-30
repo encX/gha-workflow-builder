@@ -5,12 +5,6 @@ import Vue from "vue";
 
 export const workflow: Workflow = Vue.observable({
   on: {
-    push: {
-      branches: ["a", "b", "c"],
-      "branches-ignore": ["def", "ghi"],
-      tags: ["v1.*", "v2.*"],
-      "tags-ignore": ["v3.1.*"],
-    },
     pull_request: {
       branches: ["a", "b", "c"],
       "branches-ignore": ["def", "ghi"],
@@ -24,20 +18,16 @@ export const workflow: Workflow = Vue.observable({
   jobs: undefined,
 });
 
-export function setPush(push: PushPrConfig): void {
-  workflow.on = { ...workflow.on, push };
-}
-
-export function setPr(pull_request: PushPrConfig): void {
-  workflow.on = { ...workflow.on, pull_request };
-}
-
 export function setPushPr(
   trigger: "push" | "pull_request",
-  branchType: BranchType,
+  type: BranchType,
   items: string[]
 ) {
-  workflow.on[trigger] = { ...workflow.on[trigger], [branchType]: items };
+  const config = {
+    ...workflow.on[trigger],
+    [type]: items.length > 0 ? items : undefined,
+  };
+  workflow.on = { ...workflow.on, [trigger]: config };
 }
 
 export function setSchedule(schedule: CronConfig[]): void {
