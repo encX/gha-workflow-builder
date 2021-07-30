@@ -2,7 +2,7 @@
   <Rows v-if="config">
     <div v-for="({ cron }, index) in config" :key="index">
       Schedule:
-      <b-tag class="is-light is-family-monospace mr-1 has-text-weight-bold">{{
+      <b-tag class="is-light is-family-monospace ml-1 has-text-weight-bold">{{
         cron
       }}</b-tag>
     </div>

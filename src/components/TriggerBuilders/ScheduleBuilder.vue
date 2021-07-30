@@ -17,16 +17,14 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 
 import { setSchedule, workflow } from "@/store";
 import { CronConfig } from "@/types/Trigger/cronConfig";
+import { onTriggerBuilderDone } from "@/TriggerBuilderState";
 
 @Component
 export default class ScheduleBuilder extends Vue {
-  @Prop({ default: () => () => null }) private readonly onComplete!: () => void;
-  @Prop({ default: () => () => null }) private readonly onCancel!: () => void;
-
   private config: CronConfig[] = [];
   private newCron = "";
 
@@ -37,7 +35,9 @@ export default class ScheduleBuilder extends Vue {
   private done(): void {
     this.config = [...this.config, { cron: this.newCron }];
     setSchedule(this.config);
-    this.onComplete();
+    onTriggerBuilderDone();
   }
+
+  private onCancel = onTriggerBuilderDone;
 }
 </script>

@@ -8,10 +8,6 @@
     <ScheduleDisplay :config="schedule" />
     <ManualDisplay v-if="manual" />
 
-    <div v-if="stage === 'neutral'" @click="onClickAddNew" class="buttons">
-      <b-button class="is-primary">Add</b-button>
-    </div>
-
     <div v-if="stage === 'pick-type'" class="buttons">
       <b-button
         icon-left="plus"
@@ -48,14 +44,8 @@
         (buildType === 'push' || buildType === 'pull_request')
       "
       :type="buildType"
-      :on-complete="onBuildComplete"
-      :on-cancel="onBuilderCancel"
     />
-    <ScheduleBuilder
-      v-if="stage === 'build' && buildType === 'schedule'"
-      :on-complete="onBuildComplete"
-      :on-cancel="onBuilderCancel"
-    />
+    <ScheduleBuilder v-if="stage === 'build' && buildType === 'schedule'" />
   </section>
 </template>
 
@@ -64,7 +54,10 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
 import { workflow, setManual } from "@/store";
-import { Trigger } from "@/types/Trigger/trigger";
+import {
+  onTriggerBuilderDone,
+  triggerBuilderState as state,
+} from "@/TriggerBuilderState";
 import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
 import PushPrDisplay from "@/components/TriggerBuilders/PushPrDisplay.vue";
 import ScheduleBuilder from "@/components/TriggerBuilders/ScheduleBuilder.vue";
@@ -93,47 +86,32 @@ import ManualDisplay from "@/components/TriggerBuilders/ManualDisplay.vue";
         !workflow.on?.pull_request?.["tags-ignore"]),
     schedule: () => workflow.on?.schedule,
     manual: () => workflow.on?.workflow_dispatch,
+    stage: () => state.stage,
+    buildType: () => state.buildType,
   },
   methods: {},
 })
 export default class TriggerBuilder extends Vue {
-  private buildType: BuildType | null = null;
-  private stage: BuilderStage = "pick-type";
   private subBtnClass = "is-primary is-light";
 
   private onClickPush(): void {
-    this.stage = "build";
-    this.buildType = "push";
+    state.stage = "build";
+    state.buildType = "push";
   }
 
   private onClickPr(): void {
-    this.stage = "build";
-    this.buildType = "pull_request";
+    state.stage = "build";
+    state.buildType = "pull_request";
   }
 
   private onClickSchedule(): void {
-    this.stage = "build";
-    this.buildType = "schedule";
+    state.stage = "build";
+    state.buildType = "schedule";
   }
 
   private onClickManual(): void {
     setManual();
-    this.onBuildComplete();
-  }
-
-  private onClickAddNew(): void {
-    this.stage = "pick-type";
-  }
-
-  private onBuilderCancel(): void {
-    this.stage = "pick-type";
-  }
-
-  private onBuildComplete(): void {
-    this.stage = "pick-type";
-    this.buildType = null;
+    onTriggerBuilderDone();
   }
 }
-type BuildType = keyof Trigger;
-type BuilderStage = "neutral" | "pick-type" | "build";
 </script>

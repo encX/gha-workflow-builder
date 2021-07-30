@@ -16,6 +16,8 @@ export default class Rows extends Vue {}
 
   > div {
     padding: 8px 16px;
+    display: flex;
+    align-items: center;
 
     &:not(:last-child) {
       border-bottom: 1px solid #eee;

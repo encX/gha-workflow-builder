@@ -4,3 +4,5 @@ export interface PushPrConfig {
   "branches-ignore"?: string[];
   "tags-ignore"?: string[];
 }
+
+export type PushPrStage = keyof PushPrConfig | "neutral";
