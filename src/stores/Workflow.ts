@@ -25,8 +25,6 @@ export function setPushPr(
   type: BranchType,
   items: string[]
 ): void {
-  if (items.length === 0) return deletePushPr(trigger, type);
-
   const config = { ...workflow.on[trigger], [type]: items };
   workflow.on = { ...workflow.on, [trigger]: config };
 }

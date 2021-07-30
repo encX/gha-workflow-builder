@@ -43,8 +43,8 @@
 </template>
 
 <script lang="ts">
-import { workflow } from "@/stores/Workflow";
-import { BranchStage, BranchType } from "@/types/Trigger/pushPrConfig";
+import { setPushPr, workflow } from "@/stores/Workflow";
+import { BranchType } from "@/types/Trigger/pushPrConfig";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
@@ -68,6 +68,7 @@ export default class PushPrBuilder extends Vue {
   }
 
   private setStage(data: BranchType): void {
+    setPushPr(this.type, data, []);
     onEditPushPr(this.type, data);
   }
 

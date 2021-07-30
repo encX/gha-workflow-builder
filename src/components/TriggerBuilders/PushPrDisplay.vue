@@ -69,7 +69,9 @@ export default class PushPrDisplay extends Vue {
 
   private onSave(type: BranchType) {
     return (list: string[]) => {
-      setPushPr(this.trigger, type, list);
+      list.length > 0
+        ? setPushPr(this.trigger, type, list)
+        : deletePushPr(this.trigger, type);
       onTriggerBuilderExit();
     };
   }

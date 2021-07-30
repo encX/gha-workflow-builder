@@ -6,4 +6,3 @@ export interface PushPrConfig {
 }
 
 export type BranchType = keyof PushPrConfig;
-export type BranchStage = BranchType | "neutral";
