@@ -9,8 +9,8 @@ export const workflow: Workflow = Vue.observable({
   on: {
     pull_request: {
       branches: ["a", "b", "c"],
-      "branches-ignore": ["def", "ghi"],
-      tags: ["v1.*", "v2.*"],
+      // "branches-ignore": ["def", "ghi"],
+      // tags: ["v1.*", "v2.*"],
       "tags-ignore": ["v3.1.*"],
     },
     schedule: [{ cron: "0 0,12 * * *" }, { cron: "0 0 1 * *" }],
@@ -24,7 +24,7 @@ export function setPushPr(
   trigger: "push" | "pull_request",
   type: BranchType,
   items: string[]
-) {
+): void {
   if (items.length === 0) return deletePushPr(trigger, type);
 
   const config = { ...workflow.on[trigger], [type]: items };
@@ -34,9 +34,9 @@ export function setPushPr(
 export function deletePushPr(
   trigger: "push" | "pull_request",
   type: BranchType
-) {
+): void {
   const config = workflow.on[trigger];
-  if (config) {
+  if (config?.[type]) {
     delete config[type];
 
     if (Object.keys(config).length === 0) {

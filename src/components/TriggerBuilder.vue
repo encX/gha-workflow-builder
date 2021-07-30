@@ -8,7 +8,7 @@
     <ScheduleDisplay :config="schedule" />
     <ManualDisplay v-if="manual" />
 
-    <div v-if="stage === 'pick-type'" class="buttons">
+    <div v-if="stage !== 'build'" class="buttons">
       <b-button
         icon-left="plus"
         v-if="canAddPush"
@@ -38,13 +38,10 @@
       </b-button>
     </div>
 
-    <PushPrBuilder
-      v-if="
-        stage === 'build' &&
-        (buildType === 'push' || buildType === 'pull_request')
-      "
-    />
-    <ScheduleBuilder v-if="stage === 'build' && buildType === 'schedule'" />
+    <div v-else>
+      <PushPrBuilder v-if="trigger === 'push' || trigger === 'pull_request'" />
+      <ScheduleBuilder v-if="trigger === 'schedule'" />
+    </div>
   </section>
 </template>
 
@@ -55,6 +52,7 @@ import { Component } from "vue-property-decorator";
 import { workflow, setManual } from "@/stores/Workflow";
 import {
   onTriggerBuilderExit,
+  onNewTrigger,
   triggerBuilderState as state,
 } from "@/stores/TriggerBuilderState";
 import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
@@ -84,26 +82,23 @@ import ManualDisplay from "@/components/TriggerBuilders/ManualDisplay.vue";
     schedule: () => workflow.on?.schedule,
     manual: () => workflow.on?.workflow_dispatch,
     stage: () => state.stage,
-    buildType: () => state.currentTriggerBuild,
+    trigger: () => state.currentTriggerBuild,
   },
   methods: {},
 })
 export default class TriggerBuilder extends Vue {
   private subBtnClass = "is-primary is-light";
 
-  private onClickPush(): void {
-    state.stage = "build";
-    state.currentTriggerBuild = "push";
+  private onClickPush() {
+    onNewTrigger("push");
   }
 
-  private onClickPr(): void {
-    state.stage = "build";
-    state.currentTriggerBuild = "pull_request";
+  private onClickPr() {
+    return onNewTrigger("pull_request");
   }
 
-  private onClickSchedule(): void {
-    state.stage = "build";
-    state.currentTriggerBuild = "schedule";
+  private onClickSchedule() {
+    return onNewTrigger("schedule");
   }
 
   private onClickManual(): void {
