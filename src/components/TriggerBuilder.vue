@@ -43,7 +43,6 @@
         stage === 'build' &&
         (buildType === 'push' || buildType === 'pull_request')
       "
-      :type="buildType"
     />
     <ScheduleBuilder v-if="stage === 'build' && buildType === 'schedule'" />
   </section>
@@ -87,7 +86,7 @@ import ManualDisplay from "@/components/TriggerBuilders/ManualDisplay.vue";
     schedule: () => workflow.on?.schedule,
     manual: () => workflow.on?.workflow_dispatch,
     stage: () => state.stage,
-    buildType: () => state.buildType,
+    buildType: () => state.currentTriggerBuild,
   },
   methods: {},
 })
@@ -96,17 +95,17 @@ export default class TriggerBuilder extends Vue {
 
   private onClickPush(): void {
     state.stage = "build";
-    state.buildType = "push";
+    state.currentTriggerBuild = "push";
   }
 
   private onClickPr(): void {
     state.stage = "build";
-    state.buildType = "pull_request";
+    state.currentTriggerBuild = "pull_request";
   }
 
   private onClickSchedule(): void {
     state.stage = "build";
-    state.buildType = "schedule";
+    state.currentTriggerBuild = "schedule";
   }
 
   private onClickManual(): void {

@@ -70,21 +70,37 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
 import { setPr, setPush, workflow } from "@/store";
-import { PushPrConfig } from "@/types/Trigger/pushPrConfig";
+import {
+  onTriggerBuilderDone,
+  triggerBuilderState as state,
+} from "@/TriggerBuilderState";
+import { BranchType, PushPrConfig } from "@/types/Trigger/pushPrConfig";
 import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 
 @Component
 export default class PushPrBuilder extends Vue {
-  @Prop({ required: true }) private readonly type!: "pull_request" | "push";
   @Prop({ default: () => () => null }) private readonly onComplete!: () => void;
   @Prop({ default: () => () => null }) private readonly onCancel!: () => void;
 
   private config: PushPrConfig = {};
   private list: string[] = [];
-  private stage: BuilderStage = "neutral";
+
+  private get stage(): BranchType {
+    return state.currentBranchType;
+  }
+
+  private set stage(value: BranchType) {
+    state.currentBranchType = value;
+  }
+
+  private get currentType(): "pull_request" | "push" {
+    return state.currentTriggerBuild === "pull_request"
+      ? "pull_request"
+      : "push";
+  }
 
   created(): void {
-    this.config = workflow.on?.[this.type] ?? {};
+    this.config = workflow.on?.[this.currentType] ?? {};
   }
 
   private setStage(stage: BuilderStage): void {
@@ -92,21 +108,13 @@ export default class PushPrBuilder extends Vue {
   }
 
   private exportTrigger(): void {
-    this.config = { ...this.config, [this.stage]: this.list };
-    switch (this.type) {
-      case "pull_request":
-        setPr(this.config);
-        break;
-      case "push":
-        setPush(this.config);
-        break;
-    }
+    // todo
   }
 
   private done(): void {
     if (this.stage === "neutral") return;
     if (this.list.length !== 0) this.exportTrigger();
-    this.onComplete();
+    onTriggerBuilderDone();
   }
 
   private back(): void {
@@ -115,16 +123,20 @@ export default class PushPrBuilder extends Vue {
 
   private get canUseBranch(): boolean {
     return (
-      !this.config.branches?.length && !this.config["branches-ignore"]?.length
+      !workflow.on?.[this.currentType]?.branches?.length &&
+      !workflow.on?.[this.currentType]?.["branches-ignore"]?.length
     );
   }
 
   private get canUseTag(): boolean {
-    return !this.config.tags?.length && !this.config["tags-ignore"]?.length;
+    return (
+      !workflow.on?.[this.currentType]?.tags?.length &&
+      !workflow.on?.[this.currentType]?.["tags-ignore"]?.length
+    );
   }
 
   private get title(): string {
-    return getTriggerTitle(this.type).toLowerCase();
+    return getTriggerTitle(this.currentType).toLowerCase();
   }
 
   private get placeHolderText(): string {
