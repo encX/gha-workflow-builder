@@ -1,5 +1,5 @@
 import { CronConfig } from "@/types/Trigger/cronConfig";
-import { PushPrConfig } from "@/types/Trigger/pushPrConfig";
+import { BranchType, PushPrConfig } from "@/types/Trigger/pushPrConfig";
 import { Workflow } from "@/types/workflow";
 import Vue from "vue";
 
@@ -30,6 +30,14 @@ export function setPush(push: PushPrConfig): void {
 
 export function setPr(pull_request: PushPrConfig): void {
   workflow.on = { ...workflow.on, pull_request };
+}
+
+export function setPushPr(
+  trigger: "push" | "pull_request",
+  branchType: BranchType,
+  items: string[]
+) {
+  workflow.on[trigger] = { ...workflow.on[trigger], [branchType]: items };
 }
 
 export function setSchedule(schedule: CronConfig[]): void {

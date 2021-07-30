@@ -69,7 +69,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
-import { setPr, setPush, workflow } from "@/store";
+import { setPushPr, workflow } from "@/store";
 import {
   onTriggerBuilderDone,
   triggerBuilderState as state,
@@ -108,7 +108,7 @@ export default class PushPrBuilder extends Vue {
   }
 
   private exportTrigger(): void {
-    // todo
+    setPushPr(this.type, state.currentBranchType, this.list);
   }
 
   private done(): void {
