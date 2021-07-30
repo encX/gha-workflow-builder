@@ -93,14 +93,14 @@ export default class PushPrBuilder extends Vue {
     state.currentBranchType = value;
   }
 
-  private get currentType(): "pull_request" | "push" {
+  private get type(): "pull_request" | "push" {
     return state.currentTriggerBuild === "pull_request"
       ? "pull_request"
       : "push";
   }
 
   created(): void {
-    this.config = workflow.on?.[this.currentType] ?? {};
+    this.config = workflow.on?.[this.type] ?? {};
   }
 
   private setStage(stage: BuilderStage): void {
@@ -123,20 +123,20 @@ export default class PushPrBuilder extends Vue {
 
   private get canUseBranch(): boolean {
     return (
-      !workflow.on?.[this.currentType]?.branches?.length &&
-      !workflow.on?.[this.currentType]?.["branches-ignore"]?.length
+      !workflow.on?.[this.type]?.branches?.length &&
+      !workflow.on?.[this.type]?.["branches-ignore"]?.length
     );
   }
 
   private get canUseTag(): boolean {
     return (
-      !workflow.on?.[this.currentType]?.tags?.length &&
-      !workflow.on?.[this.currentType]?.["tags-ignore"]?.length
+      !workflow.on?.[this.type]?.tags?.length &&
+      !workflow.on?.[this.type]?.["tags-ignore"]?.length
     );
   }
 
   private get title(): string {
-    return getTriggerTitle(this.currentType).toLowerCase();
+    return getTriggerTitle(this.type).toLowerCase();
   }
 
   private get placeHolderText(): string {
