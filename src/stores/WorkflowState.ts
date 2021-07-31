@@ -70,6 +70,11 @@ const store: Module<Workflow, RootState> = {
     setManual(state: Workflow): void {
       state.on = { ...state.on, workflow_dispatch: {} };
     },
+
+    deleteManual(state: Workflow): void {
+      delete state.on.workflow_dispatch;
+      state.on = { ...state.on }; // re-trigger rx
+    },
   },
   actions: {
     setPushPr(context, payload: SetPushPrPayload): void {
