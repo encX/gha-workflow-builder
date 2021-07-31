@@ -24,7 +24,7 @@ import PushPrOptions from "@/components/TriggerBuilders/PushPrOptions.vue";
 import PushPrGroup from "@/components/TriggerBuilders/PushPrGroup.vue";
 import ScheduleGroup from "@/components/TriggerBuilders/ScheduleGroup.vue";
 import ManualGroup from "@/components/TriggerBuilders/ManualGroup.vue";
-import PickTypeButtons from "@/components/PickTypeButtons.vue";
+import PickTypeButtons from "@/components/TriggerBuilders/PickTypeButtons.vue";
 
 // noinspection JSMethodCanBeStatic
 @Component({
