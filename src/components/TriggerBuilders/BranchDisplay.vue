@@ -2,12 +2,12 @@
   <div class="branch-display" v-if="shouldRender">
     <div class="description">
       {{ targetText }}:
-      <b-taginput v-if="isEditing" v-model="list" />
+      <b-taginput v-if="isEditing" v-model="items" />
       <b-tag
         v-else
         class="is-light is-family-monospace ml-1 has-text-weight-bold"
         :type="displayType"
-        v-for="item in list"
+        v-for="item in items"
         :key="item"
         >{{ item }}</b-tag
       >
@@ -36,8 +36,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
-import { onTriggerBuilderExit } from "@/stores/TriggerBuilderState";
-import { deletePushPr, setPushPr, workflow } from "@/stores/Workflow";
+import { commit, workflow } from "@/stores";
 import { BranchType } from "@/types/Trigger/pushPrConfig";
 
 @Component
@@ -48,12 +47,14 @@ export default class BranchDisplay extends Vue {
   @Prop({ required: true }) private readonly targetText!: string;
   @Prop({ default: "is-info" }) private readonly displayType!: string;
 
-  private shouldRender = Boolean(workflow.on?.[this.trigger]?.[this.type]);
-  private list = workflow.on[this.trigger]?.[this.type] ?? [];
-  private isEditing = workflow.on[this.trigger]?.[this.type]?.length === 0;
+  private get shouldRender(): boolean {
+    return Boolean(workflow.on?.[this.trigger]?.[this.type]);
+  }
+  private items = workflow.on[this.trigger]?.[this.type] ?? [];
+  private isEditing = !workflow.on[this.trigger]?.[this.type]?.length;
 
   private onDelete(): void {
-    deletePushPr(this.trigger, this.type);
+    commit("deletePushPr", { trigger: this.trigger, type: this.type });
   }
 
   private onEdit(): void {
@@ -61,11 +62,13 @@ export default class BranchDisplay extends Vue {
   }
 
   private onSave(): void {
+    const { trigger, type, items } = this;
+
     this.isEditing = false;
-    this.list.length > 0
-      ? setPushPr(this.trigger, this.type, this.list)
+    this.items.length > 0
+      ? commit("setPushPr", { trigger, type, items })
       : this.onDelete();
-    onTriggerBuilderExit();
+    commit("onTriggerBuilderExit");
   }
 }
 </script>

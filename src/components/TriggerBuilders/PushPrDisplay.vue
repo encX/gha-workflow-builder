@@ -34,7 +34,7 @@ import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 import BranchDisplay from "@/components/TriggerBuilders/BranchDisplay.vue";
 import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
 import Rows from "@/components/DisplayAid/Rows.vue";
-import { workflow } from "@/stores/Workflow";
+import { workflow } from "@/stores";
 
 @Component({
   components: { BranchDisplay, PushPrBuilder, Rows },
@@ -43,7 +43,7 @@ export default class PushPrDisplay extends Vue {
   @Prop({ required: true }) private readonly trigger!: "pull_request" | "push";
 
   private get triggerConfig(): PushPrConfig {
-    return workflow.on[this.trigger]!;
+    return workflow.on[this.trigger] ?? {};
   }
 
   private get shouldDisplaySection(): boolean {

@@ -43,47 +43,45 @@
 </template>
 
 <script lang="ts">
-import { setPushPr, workflow } from "@/stores/Workflow";
-import { BranchType } from "@/types/Trigger/pushPrConfig";
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
 
-import {
-  onTriggerBuilderExit,
-  triggerBuilderState as state,
-} from "@/stores/TriggerBuilderState";
+import { triggerBuilderState, workflow, commit } from "@/stores";
+import { BranchType } from "@/types/Trigger/pushPrConfig";
+import { Component } from "vue-property-decorator";
 import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 
 @Component
 export default class PushPrBuilder extends Vue {
-  private get type(): "pull_request" | "push" {
-    return state.currentTriggerBuild === "pull_request"
+  private get trigger(): "pull_request" | "push" {
+    return triggerBuilderState.currentTriggerBuild === "pull_request"
       ? "pull_request"
       : "push";
   }
 
   private get title(): string {
-    return getTriggerTitle(this.type).toLowerCase();
+    return getTriggerTitle(this.trigger).toLowerCase();
   }
 
-  private setStage(data: BranchType): void {
-    setPushPr(this.type, data, []);
-    onTriggerBuilderExit();
+  private setStage(type: BranchType): void {
+    commit("setPushPr", { trigger: this.trigger, type, items: [] });
+    commit("onTriggerBuilderExit");
   }
 
-  private onCancel = onTriggerBuilderExit;
+  private onCancel() {
+    commit("onTriggerBuilderExit");
+  }
 
   private get canUseBranch(): boolean {
     return (
-      !workflow.on?.[this.type]?.branches?.length &&
-      !workflow.on?.[this.type]?.["branches-ignore"]?.length
+      !Array.isArray(workflow.on?.[this.trigger]?.branches) &&
+      !Array.isArray(workflow.on?.[this.trigger]?.["branches-ignore"])
     );
   }
 
   private get canUseTag(): boolean {
     return (
-      !workflow.on?.[this.type]?.tags?.length &&
-      !workflow.on?.[this.type]?.["tags-ignore"]?.length
+      !Array.isArray(workflow.on?.[this.trigger]?.tags) &&
+      !Array.isArray(workflow.on?.[this.trigger]?.["tags-ignore"])
     );
   }
 }

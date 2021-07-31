@@ -49,12 +49,7 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-import { workflow, setManual } from "@/stores/Workflow";
-import {
-  onTriggerBuilderExit,
-  onNewTrigger,
-  triggerBuilderState as state,
-} from "@/stores/TriggerBuilderState";
+import { commit, workflow, triggerBuilderState } from "@/stores";
 import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
 import PushPrDisplay from "@/components/TriggerBuilders/PushPrDisplay.vue";
 import ScheduleBuilder from "@/components/TriggerBuilders/ScheduleBuilder.vue";
@@ -69,41 +64,53 @@ import ManualDisplay from "@/components/TriggerBuilders/ManualDisplay.vue";
     ScheduleDisplay,
     ManualDisplay,
   },
-  computed: {
-    canAddPush: () =>
-      (!workflow.on?.push?.branches &&
-        !workflow.on?.push?.["branches-ignore"]) ||
-      (!workflow.on?.push?.tags && !workflow.on?.push?.["tags-ignore"]),
-    canAddPr: () =>
-      (!workflow.on?.pull_request?.branches &&
-        !workflow.on?.pull_request?.["branches-ignore"]) ||
-      (!workflow.on?.pull_request?.tags &&
-        !workflow.on?.pull_request?.["tags-ignore"]),
-    schedule: () => workflow.on?.schedule,
-    manual: () => workflow.on?.workflow_dispatch,
-    stage: () => state.stage,
-    trigger: () => state.currentTriggerBuild,
-  },
-  methods: {},
 })
 export default class TriggerBuilder extends Vue {
   private subBtnClass = "is-primary is-light";
 
   private onClickPush() {
-    onNewTrigger("push");
+    commit("onNewTrigger", "push");
   }
 
   private onClickPr() {
-    onNewTrigger("pull_request");
+    commit("onNewTrigger", "pull_request");
   }
 
   private onClickSchedule() {
-    onNewTrigger("schedule");
+    commit("onNewTrigger", "schedule");
   }
 
   private onClickManual(): void {
-    setManual();
-    onTriggerBuilderExit();
+    commit("setManual");
+    commit("onTriggerBuilderExit");
+  }
+
+  private get canAddPush() {
+    return (
+      (!workflow.on?.push?.branches &&
+        !workflow.on?.push?.["branches-ignore"]) ||
+      (!workflow.on?.push?.tags && !workflow.on?.push?.["tags-ignore"])
+    );
+  }
+  private get canAddPr() {
+    return (
+      (!workflow.on?.pull_request?.branches &&
+        !workflow.on?.pull_request?.["branches-ignore"]) ||
+      (!workflow.on?.pull_request?.tags &&
+        !workflow.on?.pull_request?.["tags-ignore"])
+    );
+  }
+  private get schedule() {
+    return workflow.on?.schedule;
+  }
+  private get manual() {
+    return workflow.on?.workflow_dispatch;
+  }
+  private get stage() {
+    return triggerBuilderState.stage;
+  }
+  private get trigger() {
+    return triggerBuilderState.currentTriggerBuild;
   }
 }
 </script>
