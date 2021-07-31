@@ -56,6 +56,7 @@ import ScheduleBuilder from "@/components/TriggerBuilders/ScheduleBuilder.vue";
 import ScheduleDisplay from "@/components/TriggerBuilders/ScheduleDisplay.vue";
 import ManualDisplay from "@/components/TriggerBuilders/ManualDisplay.vue";
 
+// noinspection JSMethodCanBeStatic
 @Component({
   components: {
     PushPrBuilder,

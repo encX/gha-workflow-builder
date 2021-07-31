@@ -22,6 +22,7 @@ import { Component } from "vue-property-decorator";
 import { workflow, commit } from "@/stores";
 import { CronConfig } from "@/types/Trigger/cronConfig";
 
+// noinspection JSMethodCanBeStatic
 @Component
 export default class ScheduleBuilder extends Vue {
   private config: CronConfig[] = [];

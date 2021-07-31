@@ -50,6 +50,7 @@ import { BranchType } from "@/types/Trigger/pushPrConfig";
 import { Component } from "vue-property-decorator";
 import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 
+// noinspection JSMethodCanBeStatic
 @Component
 export default class PushPrBuilder extends Vue {
   private get trigger(): "pull_request" | "push" {
@@ -67,7 +68,7 @@ export default class PushPrBuilder extends Vue {
     commit("onTriggerBuilderExit");
   }
 
-  private onCancel() {
+  private onCancel(): void {
     commit("onTriggerBuilderExit");
   }
 
