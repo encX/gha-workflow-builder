@@ -49,7 +49,6 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
 import {
-  onEditPushPr,
   onTriggerBuilderExit,
   triggerBuilderState as state,
 } from "@/stores/TriggerBuilderState";
@@ -69,7 +68,7 @@ export default class PushPrBuilder extends Vue {
 
   private setStage(data: BranchType): void {
     setPushPr(this.type, data, []);
-    onEditPushPr(this.type, data);
+    onTriggerBuilderExit();
   }
 
   private onCancel = onTriggerBuilderExit;
@@ -90,17 +89,4 @@ export default class PushPrBuilder extends Vue {
 }
 </script>
 
-<style lang="scss">
-.push-pr-builder {
-  animation: newBox 2s;
-}
-
-@keyframes newBox {
-  from {
-    background-color: #ffdb4a;
-  }
-  to {
-    background-color: white;
-  }
-}
-</style>
+<style lang="scss"></style>

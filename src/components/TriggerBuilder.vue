@@ -8,7 +8,7 @@
     <ScheduleDisplay :config="schedule" />
     <ManualDisplay v-if="manual" />
 
-    <div v-if="stage !== 'build'" class="buttons">
+    <div v-if="stage === 'pick-type'" class="buttons">
       <b-button
         icon-left="plus"
         v-if="canAddPush"
@@ -38,7 +38,7 @@
       </b-button>
     </div>
 
-    <div v-else>
+    <div v-else-if="stage === 'build'">
       <PushPrBuilder v-if="trigger === 'push' || trigger === 'pull_request'" />
       <ScheduleBuilder v-if="trigger === 'schedule'" />
     </div>
@@ -94,11 +94,11 @@ export default class TriggerBuilder extends Vue {
   }
 
   private onClickPr() {
-    return onNewTrigger("pull_request");
+    onNewTrigger("pull_request");
   }
 
   private onClickSchedule() {
-    return onNewTrigger("schedule");
+    onNewTrigger("schedule");
   }
 
   private onClickManual(): void {

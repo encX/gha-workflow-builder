@@ -1,17 +1,14 @@
-import { BranchType } from "@/types/Trigger/pushPrConfig";
 import { Trigger } from "@/types/Trigger/trigger";
 import Vue from "vue";
 
 interface TriggerBuilderState {
-  stage: "pick-type" | "build" | "edit";
+  stage: "pick-type" | "build";
   currentTriggerBuild: keyof Trigger;
-  currentBranchStage: BranchType;
 }
 
 export const triggerBuilderState: TriggerBuilderState = Vue.observable({
   stage: "pick-type",
   currentTriggerBuild: "push",
-  currentBranchStage: "branches",
 });
 
 export function onTriggerBuilderExit(): void {
@@ -23,13 +20,4 @@ export function onNewTrigger(
 ): void {
   triggerBuilderState.stage = "build";
   triggerBuilderState.currentTriggerBuild = trigger;
-}
-
-export function onEditPushPr(
-  trigger: "push" | "pull_request",
-  branchType: BranchType
-): void {
-  triggerBuilderState.stage = "edit";
-  triggerBuilderState.currentTriggerBuild = trigger;
-  triggerBuilderState.currentBranchStage = branchType;
 }
