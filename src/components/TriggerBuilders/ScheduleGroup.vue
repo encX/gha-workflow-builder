@@ -1,5 +1,5 @@
 <template>
-  <Rows v-if="triggerConfig.length">
+  <Rows v-if="triggerConfig.length" :has-shadow="true">
     <ScheduleEditor
       v-for="({ _key }, index) in triggerConfig"
       class="branch-display"

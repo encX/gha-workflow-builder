@@ -2,43 +2,41 @@
   <div class="push-pr-builder block">
     <h5 class="title is-5">New trigger on {{ title }} ...</h5>
 
-    <div>
-      <div class="buttons">
-        <b-button
-          v-if="canUseBranch"
-          @click="setStage('branches')"
-          class="is-primary is-light"
-        >
-          to branch ...
-        </b-button>
-        <b-button
-          v-if="canUseBranch"
-          @click="setStage('branches-ignore')"
-          class="is-primary is-light"
-        >
-          to all branch except ...
-        </b-button>
-        <b-button
-          v-if="canUseTag"
-          @click="setStage('tags')"
-          class="is-primary is-light"
-        >
-          to tag ...
-        </b-button>
-        <b-button
-          v-if="canUseTag"
-          @click="setStage('tags-ignore')"
-          class="is-primary is-light"
-        >
-          to all tag except ...
-        </b-button>
-        <b-button class="button" @click="onCancel">Cancel</b-button>
-      </div>
-      <p class="is-size-7">
-        * Positive filter (to branch/tag) and negative filter (to all branch/tag
-        except) can't be used together
-      </p>
+    <div class="buttons">
+      <b-button
+        v-if="canUseBranch"
+        @click="setStage('branches')"
+        class="is-primary is-light"
+      >
+        to branch ...
+      </b-button>
+      <b-button
+        v-if="canUseBranch"
+        @click="setStage('branches-ignore')"
+        class="is-primary is-light"
+      >
+        to all branch except ...
+      </b-button>
+      <b-button
+        v-if="canUseTag"
+        @click="setStage('tags')"
+        class="is-primary is-light"
+      >
+        to tag ...
+      </b-button>
+      <b-button
+        v-if="canUseTag"
+        @click="setStage('tags-ignore')"
+        class="is-primary is-light"
+      >
+        to all tag except ...
+      </b-button>
+      <b-button class="button" @click="onCancel">Cancel</b-button>
     </div>
+    <p class="is-size-7">
+      * Positive filter (to branch/tag) and negative filter (to all branch/tag
+      except) can't be used together
+    </p>
   </div>
 </template>
 

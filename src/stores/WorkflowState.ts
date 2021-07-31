@@ -23,14 +23,23 @@ const store: Module<Workflow, RootState> = {
   state: () => ({
     on: {},
     name: undefined,
-    jobs: undefined,
+    jobs: {
+      "todo-app": {
+        "runs-on": "ubuntu-latest",
+        env: { KEY1: "value1", KEY2: "value2" },
+        steps: [
+          { uses: "actions/checkout@v2" },
+          { uses: "actions/setup-node@v1" },
+          { name: "Publish", run: "yarn publish" },
+        ],
+      },
+    },
   }),
   mutations: {
     setPushPr(state: Workflow, { trigger, type, items }: SetPushPrPayload) {
       const config = { ...state.on[trigger], [type]: items };
       state.on = { ...state.on, [trigger]: config };
     },
-
     deletePushPr(state: Workflow, { type, trigger }: DeletePushPrPayload) {
       const config = state.on[trigger];
       if (config?.[type]) {
@@ -44,19 +53,16 @@ const store: Module<Workflow, RootState> = {
         }
       }
     },
-
     setSchedule(state: Workflow, { index, cron }: SetSchedulePayload): void {
       const _key = state.on.schedule?.[index]._key ?? Date.now().toString();
       if (state.on.schedule) state.on.schedule[index] = { cron, _key };
     },
-
     deleteSchedule(state: Workflow, index: number): void {
       state.on.schedule?.splice(index, 1);
       if (state.on.schedule?.length === 0) {
         delete state.on.schedule;
       }
     },
-
     addSchedule(state: Workflow): void {
       const cron = "";
       const _key = Date.now().toString();
@@ -66,11 +72,9 @@ const store: Module<Workflow, RootState> = {
         state.on = { ...state.on, schedule: [{ cron, _key }] };
       }
     },
-
     setManual(state: Workflow): void {
       state.on = { ...state.on, workflow_dispatch: {} };
     },
-
     deleteManual(state: Workflow): void {
       delete state.on.workflow_dispatch;
       state.on = { ...state.on }; // re-trigger rx

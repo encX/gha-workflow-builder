@@ -1,5 +1,5 @@
 <template>
-  <Rows v-if="manual">
+  <Rows v-if="manual" :has-shadow="true">
     <div class="row">
       <div class="row-main-content">
         Manual trigger

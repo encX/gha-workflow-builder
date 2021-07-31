@@ -3,8 +3,8 @@
     <h1 class="title">Jobs</h1>
     <h2 class="subtitle">These jobs will be executed</h2>
 
-    <div class="buttons">
-      <b-button class="is-primary">Add</b-button>
+    <div class="block">
+      <b-button icon-left="plus" type="is-primary is-light"> new job </b-button>
     </div>
 
     <JobBuilder />

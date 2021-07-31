@@ -1,5 +1,5 @@
 <template>
-  <Rows v-if="shouldDisplaySection">
+  <Rows v-if="shouldDisplaySection" :has-shadow="true">
     <PushPrEditor
       :trigger="trigger"
       type="branches"
