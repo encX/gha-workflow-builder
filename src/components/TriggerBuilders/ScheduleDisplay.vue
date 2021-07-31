@@ -1,25 +1,30 @@
 <template>
-  <Rows v-if="config">
-    <div v-for="({ cron }, index) in config" :key="index">
-      Schedule:
-      <b-tag class="is-light is-family-monospace ml-1 has-text-weight-bold">{{
-        cron
-      }}</b-tag>
-    </div>
+  <Rows v-if="triggerConfig">
+    <ScheduleEditor
+      v-for="({ _key }, index) in triggerConfig"
+      class="branch-display"
+      :key="_key"
+      :index="index"
+    />
   </Rows>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
-
 import { CronConfig } from "@/types/Trigger/cronConfig";
-import Rows from "@/components/DisplayAid/Rows.vue";
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
 
+import { workflow } from "@/stores";
+import Rows from "@/components/DisplayAid/Rows.vue";
+import ScheduleEditor from "@/components/TriggerBuilders/ScheduleEditor.vue";
+
+// noinspection JSMethodCanBeStatic
 @Component({
-  components: { Rows },
+  components: { Rows, ScheduleEditor },
 })
 export default class ScheduleDisplay extends Vue {
-  @Prop({ required: true }) private readonly config!: CronConfig[];
+  private get triggerConfig(): CronConfig[] {
+    return workflow.on.schedule ?? [];
+  }
 }
 </script>

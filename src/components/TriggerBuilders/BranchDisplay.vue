@@ -36,7 +36,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
-import { commit, workflow } from "@/stores";
+import { commit, dispatch, workflow } from "@/stores";
 import { BranchType } from "@/types/Trigger/pushPrConfig";
 
 @Component
@@ -62,12 +62,9 @@ export default class BranchDisplay extends Vue {
   }
 
   private onSave(): void {
-    const { trigger, type, items } = this;
-
     this.isEditing = false;
-    this.items.length > 0
-      ? commit("setPushPr", { trigger, type, items })
-      : this.onDelete();
+    const { trigger, type, items } = this;
+    dispatch("setPushPr", { trigger, type, items });
     commit("onTriggerBuilderExit");
   }
 }

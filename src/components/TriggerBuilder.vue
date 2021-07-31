@@ -5,7 +5,7 @@
 
     <PushPrDisplay trigger="push" />
     <PushPrDisplay trigger="pull_request" />
-    <ScheduleDisplay :config="schedule" />
+    <ScheduleDisplay />
     <ManualDisplay v-if="manual" />
 
     <div v-if="stage === 'pick-type'" class="buttons">
@@ -40,7 +40,6 @@
 
     <div v-else-if="stage === 'build'">
       <PushPrBuilder v-if="trigger === 'push' || trigger === 'pull_request'" />
-      <ScheduleBuilder v-if="trigger === 'schedule'" />
     </div>
   </section>
 </template>
@@ -52,7 +51,6 @@ import { Component } from "vue-property-decorator";
 import { commit, workflow, triggerBuilderState } from "@/stores";
 import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
 import PushPrDisplay from "@/components/TriggerBuilders/PushPrDisplay.vue";
-import ScheduleBuilder from "@/components/TriggerBuilders/ScheduleBuilder.vue";
 import ScheduleDisplay from "@/components/TriggerBuilders/ScheduleDisplay.vue";
 import ManualDisplay from "@/components/TriggerBuilders/ManualDisplay.vue";
 
@@ -61,7 +59,6 @@ import ManualDisplay from "@/components/TriggerBuilders/ManualDisplay.vue";
   components: {
     PushPrBuilder,
     PushPrDisplay,
-    ScheduleBuilder,
     ScheduleDisplay,
     ManualDisplay,
   },
@@ -78,7 +75,7 @@ export default class TriggerBuilder extends Vue {
   }
 
   private onClickSchedule() {
-    commit("onNewTrigger", "schedule");
+    commit("addSchedule");
   }
 
   private onClickManual(): void {
@@ -100,9 +97,6 @@ export default class TriggerBuilder extends Vue {
       (!workflow.on?.pull_request?.tags &&
         !workflow.on?.pull_request?.["tags-ignore"])
     );
-  }
-  private get schedule() {
-    return workflow.on?.schedule;
   }
   private get manual() {
     return workflow.on?.workflow_dispatch;

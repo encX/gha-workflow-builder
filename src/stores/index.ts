@@ -23,5 +23,6 @@ const root = new Vuex.Store<RootState>({
 
 export default root;
 export const commit = root.commit;
+export const dispatch = root.dispatch;
 export const workflow = root.state.workflow;
 export const triggerBuilderState = root.state.triggerBuilderState;

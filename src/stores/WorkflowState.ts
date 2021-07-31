@@ -1,5 +1,4 @@
 import { RootState } from "@/stores/index";
-import { CronConfig } from "@/types/Trigger/cronConfig";
 import { BranchType } from "@/types/Trigger/pushPrConfig";
 import { Workflow } from "@/types/workflow";
 import { Module } from "vuex";
@@ -15,16 +14,18 @@ interface DeletePushPrPayload {
   type: BranchType;
 }
 
+interface SetSchedulePayload {
+  index: number;
+  cron: string;
+}
+
 const store: Module<Workflow, RootState> = {
   state: () => ({
     on: {
       pull_request: {
         branches: ["a", "b", "c"],
-        // "branches-ignore": ["def", "ghi"],
-        // tags: ["v1.*", "v2.*"],
         "tags-ignore": ["v3.1.*"],
       },
-      schedule: [{ cron: "0 0,12 * * *" }, { cron: "0 0 1 * *" }],
       workflow_dispatch: {},
     },
     name: undefined,
@@ -50,12 +51,48 @@ const store: Module<Workflow, RootState> = {
       }
     },
 
-    setSchedule(state: Workflow, schedule: CronConfig[]): void {
-      state.on = { ...state.on, schedule };
+    setSchedule(state: Workflow, { index, cron }: SetSchedulePayload): void {
+      const _key = state.on.schedule?.[index]._key ?? Date.now().toString();
+      if (state.on.schedule) state.on.schedule[index] = { cron, _key };
+    },
+
+    deleteSchedule(state: Workflow, index: number): void {
+      state.on.schedule?.splice(index, 1);
+      if (state.on.schedule?.length === 0) {
+        delete state.on.schedule;
+      }
+    },
+
+    addSchedule(state: Workflow): void {
+      const cron = "";
+      const _key = Date.now().toString();
+      if (Array.isArray(state.on.schedule)) {
+        state.on.schedule.push({ cron, _key });
+      } else {
+        state.on = { ...state.on, schedule: [{ cron, _key }] };
+      }
     },
 
     setManual(state: Workflow): void {
       state.on = { ...state.on, workflow_dispatch: {} };
+    },
+  },
+  actions: {
+    setPushPr(context, payload: SetPushPrPayload): void {
+      const { trigger, type, items } = payload;
+      if (items.length > 0) {
+        context.commit("setPushPr", payload);
+      } else {
+        context.commit("deletePushPr", { trigger, type });
+      }
+    },
+    setSchedule(context, payload: SetSchedulePayload): void {
+      const { index, cron } = payload;
+      if (cron.length === 0) {
+        context.commit("deleteSchedule", index);
+      } else {
+        context.commit("setSchedule", payload);
+      }
     },
   },
 };
