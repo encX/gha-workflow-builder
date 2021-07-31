@@ -87,5 +87,3 @@ export default class PushPrOptions extends Vue {
   }
 }
 </script>
-
-<style lang="scss"></style>

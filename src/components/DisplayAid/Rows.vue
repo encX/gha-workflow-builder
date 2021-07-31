@@ -13,15 +13,36 @@ export default class Rows extends Vue {}
 <style lang="scss">
 .rows {
   padding: 0 !important;
+  overflow: hidden;
 
-  > div {
+  .row {
     padding: 8px 16px;
     display: flex;
     align-items: center;
+    animation: newBox 2s;
 
     &:not(:last-child) {
       border-bottom: 1px solid #eee;
     }
+
+    .row-main-content {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+    }
+
+    .row-control-btn {
+      margin-left: 4px;
+    }
+  }
+}
+
+@keyframes newBox {
+  from {
+    background-color: #ffdb4a;
+  }
+  to {
+    background-color: white;
   }
 }
 </style>

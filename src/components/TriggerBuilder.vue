@@ -6,49 +6,21 @@
     <PushPrGroup trigger="push" />
     <PushPrGroup trigger="pull_request" />
     <ScheduleGroup />
-    <ManualGroup v-if="manual" />
+    <ManualGroup />
 
-    <div v-if="stage === 'pick-type'" class="buttons">
-      <b-button
-        icon-left="plus"
-        v-if="canAddPush"
-        @click="onClickPush"
-        :type="btnClass"
-      >
-        Push
-      </b-button>
-      <b-button
-        icon-left="plus"
-        v-if="canAddPr"
-        @click="onClickPr"
-        :type="btnClass"
-      >
-        Pull Request
-      </b-button>
-      <b-button icon-left="plus" @click="onClickSchedule" :type="btnClass">
-        Schedule
-      </b-button>
-      <b-button
-        icon-left="plus"
-        v-if="!manual"
-        @click="onClickManual"
-        :type="btnClass"
-      >
-        Manual trigger
-      </b-button>
-    </div>
-
-    <div v-else-if="stage === 'type-option'">
+    <PickTypeButtons v-if="stage === 'pick-type'" />
+    <div v-if="stage === 'type-option'">
       <PushPrOptions v-if="trigger === 'push' || trigger === 'pull_request'" />
     </div>
   </section>
 </template>
 
 <script lang="ts">
+import PickTypeButtons from "@/components/PickTypeButtons.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-import { commit, workflow, triggerBuilderState } from "@/stores";
+import { triggerBuilderState } from "@/stores";
 import PushPrOptions from "@/components/TriggerBuilders/PushPrOptions.vue";
 import PushPrGroup from "@/components/TriggerBuilders/PushPrGroup.vue";
 import ScheduleGroup from "@/components/TriggerBuilders/ScheduleGroup.vue";
@@ -57,6 +29,7 @@ import ManualGroup from "@/components/TriggerBuilders/ManualGroup.vue";
 // noinspection JSMethodCanBeStatic
 @Component({
   components: {
+    PickTypeButtons,
     PushPrOptions,
     PushPrGroup,
     ScheduleGroup,
@@ -64,43 +37,6 @@ import ManualGroup from "@/components/TriggerBuilders/ManualGroup.vue";
   },
 })
 export default class TriggerBuilder extends Vue {
-  private btnClass = "is-primary is-light";
-
-  private onClickPush() {
-    commit("onNewTrigger", "push");
-  }
-
-  private onClickPr() {
-    commit("onNewTrigger", "pull_request");
-  }
-
-  private onClickSchedule() {
-    commit("addSchedule");
-  }
-
-  private onClickManual(): void {
-    commit("setManual");
-    commit("onTriggerBuilderExit");
-  }
-
-  private get canAddPush() {
-    return (
-      (!workflow.on?.push?.branches &&
-        !workflow.on?.push?.["branches-ignore"]) ||
-      (!workflow.on?.push?.tags && !workflow.on?.push?.["tags-ignore"])
-    );
-  }
-  private get canAddPr() {
-    return (
-      (!workflow.on?.pull_request?.branches &&
-        !workflow.on?.pull_request?.["branches-ignore"]) ||
-      (!workflow.on?.pull_request?.tags &&
-        !workflow.on?.pull_request?.["tags-ignore"])
-    );
-  }
-  private get manual() {
-    return workflow.on?.workflow_dispatch;
-  }
   private get stage() {
     return triggerBuilderState.stage;
   }

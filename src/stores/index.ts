@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Vuex from "vuex";
+import Vuex, { Commit, Dispatch } from "vuex";
 
 import { Workflow } from "@/types/workflow";
 import WorkflowStateData from "@/stores/WorkflowState";
@@ -22,7 +22,8 @@ const root = new Vuex.Store<RootState>({
 });
 
 export default root;
-export const commit = root.commit;
-export const dispatch = root.dispatch;
-export const workflow = root.state.workflow;
-export const triggerBuilderState = root.state.triggerBuilderState;
+export const commit: Commit = root.commit;
+export const dispatch: Dispatch = root.dispatch;
+export const workflow: Workflow = root.state.workflow;
+export const triggerBuilderState: TriggerBuilderState =
+  root.state.triggerBuilderState;

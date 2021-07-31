@@ -1,6 +1,6 @@
 <template>
-  <div class="branch-display">
-    <div class="description">
+  <div class="row">
+    <div class="row-main-content">
       Schedule:
       <b-input v-if="isEditing" v-model="cron" class="ml-2" />
       <b-tag v-else class="is-family-monospace ml-1 has-text-weight-bold">{{
@@ -9,18 +9,18 @@
     </div>
     <b-button
       v-if="isEditing"
-      class="control-btn is-success"
+      class="row-control-btn is-success"
       icon-left="check"
       @click="onSave"
     />
     <b-button
       v-else
-      class="control-btn is-warning"
+      class="row-control-btn is-warning"
       icon-left="pencil"
       @click="onEdit"
     />
     <b-button
-      class="control-btn is-danger"
+      class="row-control-btn is-danger"
       icon-left="delete"
       @click="onDelete"
     />
@@ -55,5 +55,3 @@ export default class ScheduleEditor extends Vue {
   }
 }
 </script>
-
-<style lang="scss"></style>

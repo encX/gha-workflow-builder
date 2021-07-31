@@ -21,13 +21,7 @@ interface SetSchedulePayload {
 
 const store: Module<Workflow, RootState> = {
   state: () => ({
-    on: {
-      pull_request: {
-        branches: ["a", "b", "c"],
-        "tags-ignore": ["v3.1.*"],
-      },
-      workflow_dispatch: {},
-    },
+    on: {},
     name: undefined,
     jobs: undefined,
   }),
