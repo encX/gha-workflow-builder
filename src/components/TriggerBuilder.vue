@@ -3,17 +3,17 @@
     <h1 class="title">Triggers</h1>
     <h2 class="subtitle">This workflow will be triggered on these events.</h2>
 
-    <PushPrDisplay trigger="push" />
-    <PushPrDisplay trigger="pull_request" />
-    <ScheduleDisplay />
-    <ManualDisplay v-if="manual" />
+    <PushPrGroup trigger="push" />
+    <PushPrGroup trigger="pull_request" />
+    <ScheduleGroup />
+    <ManualGroup v-if="manual" />
 
     <div v-if="stage === 'pick-type'" class="buttons">
       <b-button
         icon-left="plus"
         v-if="canAddPush"
         @click="onClickPush"
-        :type="subBtnClass"
+        :type="btnClass"
       >
         Push
       </b-button>
@@ -21,25 +21,25 @@
         icon-left="plus"
         v-if="canAddPr"
         @click="onClickPr"
-        :type="subBtnClass"
+        :type="btnClass"
       >
         Pull Request
       </b-button>
-      <b-button icon-left="plus" @click="onClickSchedule" :type="subBtnClass">
+      <b-button icon-left="plus" @click="onClickSchedule" :type="btnClass">
         Schedule
       </b-button>
       <b-button
         icon-left="plus"
         v-if="!manual"
         @click="onClickManual"
-        :type="subBtnClass"
+        :type="btnClass"
       >
         Manual trigger
       </b-button>
     </div>
 
-    <div v-else-if="stage === 'build'">
-      <PushPrBuilder v-if="trigger === 'push' || trigger === 'pull_request'" />
+    <div v-else-if="stage === 'type-option'">
+      <PushPrOptions v-if="trigger === 'push' || trigger === 'pull_request'" />
     </div>
   </section>
 </template>
@@ -49,22 +49,22 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
 import { commit, workflow, triggerBuilderState } from "@/stores";
-import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
-import PushPrDisplay from "@/components/TriggerBuilders/PushPrDisplay.vue";
-import ScheduleDisplay from "@/components/TriggerBuilders/ScheduleDisplay.vue";
-import ManualDisplay from "@/components/TriggerBuilders/ManualDisplay.vue";
+import PushPrOptions from "@/components/TriggerBuilders/PushPrOptions.vue";
+import PushPrGroup from "@/components/TriggerBuilders/PushPrGroup.vue";
+import ScheduleGroup from "@/components/TriggerBuilders/ScheduleGroup.vue";
+import ManualGroup from "@/components/TriggerBuilders/ManualGroup.vue";
 
 // noinspection JSMethodCanBeStatic
 @Component({
   components: {
-    PushPrBuilder,
-    PushPrDisplay,
-    ScheduleDisplay,
-    ManualDisplay,
+    PushPrOptions,
+    PushPrGroup,
+    ScheduleGroup,
+    ManualGroup,
   },
 })
 export default class TriggerBuilder extends Vue {
-  private subBtnClass = "is-primary is-light";
+  private btnClass = "is-primary is-light";
 
   private onClickPush() {
     commit("onNewTrigger", "push");

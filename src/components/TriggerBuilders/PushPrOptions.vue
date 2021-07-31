@@ -52,7 +52,7 @@ import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 
 // noinspection JSMethodCanBeStatic
 @Component
-export default class PushPrBuilder extends Vue {
+export default class PushPrOptions extends Vue {
   private get trigger(): "pull_request" | "push" {
     return triggerBuilderState.currentTriggerBuild === "pull_request"
       ? "pull_request"

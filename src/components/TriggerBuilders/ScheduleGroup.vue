@@ -22,7 +22,7 @@ import ScheduleEditor from "@/components/TriggerBuilders/ScheduleEditor.vue";
 @Component({
   components: { Rows, ScheduleEditor },
 })
-export default class ScheduleDisplay extends Vue {
+export default class ScheduleGroup extends Vue {
   private get triggerConfig(): CronConfig[] {
     return workflow.on.schedule ?? [];
   }

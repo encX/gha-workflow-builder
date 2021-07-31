@@ -1,8 +1,8 @@
 <template>
   <div class="branch-display">
     <div class="description">
-      Schedule {{ index }}:
-      <b-input v-if="isEditing" v-model="cron" />
+      Schedule:
+      <b-input v-if="isEditing" v-model="cron" class="ml-2" />
       <b-tag v-else class="is-family-monospace ml-1 has-text-weight-bold">{{
         cron
       }}</b-tag>

@@ -40,7 +40,7 @@ import { commit, dispatch, workflow } from "@/stores";
 import { BranchType } from "@/types/Trigger/pushPrConfig";
 
 @Component
-export default class BranchDisplay extends Vue {
+export default class PushPrEditor extends Vue {
   @Prop({ required: true }) private readonly trigger!: "pull_request" | "push";
   @Prop({ required: true }) private readonly type!: BranchType;
 

@@ -1,5 +1,10 @@
 <template>
-  <Rows><div>Manual trigger (workflow dispatch)</div></Rows>
+  <Rows>
+    <div>
+      Manual trigger
+      <span class="ml-1 is-family-monospace">(workflow_dispatch)</span>
+    </div>
+  </Rows>
 </template>
 
 <script lang="ts">
@@ -11,5 +16,5 @@ import Rows from "@/components/DisplayAid/Rows.vue";
 @Component({
   components: { Rows },
 })
-export default class ManualDisplay extends Vue {}
+export default class ManualGroup extends Vue {}
 </script>

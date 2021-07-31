@@ -2,7 +2,7 @@ import { Trigger } from "@/types/Trigger/trigger";
 import { Module } from "vuex";
 
 export interface TriggerBuilderState {
-  stage: "pick-type" | "build";
+  stage: "pick-type" | "type-option";
   currentTriggerBuild: keyof Trigger;
 }
 
@@ -20,7 +20,7 @@ const store: Module<TriggerBuilderState, any> = {
       state: TriggerBuilderState,
       trigger: Exclude<keyof Trigger, "workflow_dispatch">
     ): void {
-      state.stage = "build";
+      state.stage = "type-option";
       state.currentTriggerBuild = trigger;
     },
   },

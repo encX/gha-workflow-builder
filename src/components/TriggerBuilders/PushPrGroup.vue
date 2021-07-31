@@ -1,22 +1,22 @@
 <template>
   <Rows v-if="shouldDisplaySection">
-    <BranchDisplay
+    <PushPrEditor
       :trigger="trigger"
       type="branches"
       :target-text="`${Type} to branch`"
     />
-    <BranchDisplay
+    <PushPrEditor
       :trigger="trigger"
       type="branches-ignore"
       display-type="is-danger"
       :target-text="`${Type} to all branches except`"
     />
-    <BranchDisplay
+    <PushPrEditor
       :trigger="trigger"
       type="tags"
       :target-text="`${Type} to tags`"
     />
-    <BranchDisplay
+    <PushPrEditor
       :trigger="trigger"
       type="tags-ignore"
       display-type="is-danger"
@@ -31,15 +31,14 @@ import { Component, Prop } from "vue-property-decorator";
 import { PushPrConfig } from "@/types/Trigger/pushPrConfig";
 
 import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
-import BranchDisplay from "@/components/TriggerBuilders/BranchDisplay.vue";
-import PushPrBuilder from "@/components/TriggerBuilders/PushPrBuilder.vue";
+import PushPrEditor from "@/components/TriggerBuilders/PushPrEditor.vue";
 import Rows from "@/components/DisplayAid/Rows.vue";
 import { workflow } from "@/stores";
 
 @Component({
-  components: { BranchDisplay, PushPrBuilder, Rows },
+  components: { PushPrEditor, Rows },
 })
-export default class PushPrDisplay extends Vue {
+export default class PushPrGroup extends Vue {
   @Prop({ required: true }) private readonly trigger!: "pull_request" | "push";
 
   private get triggerConfig(): PushPrConfig {
