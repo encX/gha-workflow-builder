@@ -44,11 +44,11 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { Component } from "vue-property-decorator";
 
+import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 import { triggerBuilderState, workflow, commit } from "@/stores";
 import { BranchType } from "@/types/Trigger/pushPrConfig";
-import { Component } from "vue-property-decorator";
-import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 
 // noinspection JSMethodCanBeStatic
 @Component

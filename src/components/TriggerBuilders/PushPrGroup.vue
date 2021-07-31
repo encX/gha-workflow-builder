@@ -28,11 +28,11 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import { PushPrConfig } from "@/types/Trigger/pushPrConfig";
 
-import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 import PushPrEditor from "@/components/TriggerBuilders/PushPrEditor.vue";
 import Rows from "@/components/DisplayAid/Rows.vue";
+import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
+import { PushPrConfig } from "@/types/Trigger/pushPrConfig";
 import { workflow } from "@/stores";
 
 @Component({

@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts">
-import PickTypeButtons from "@/components/PickTypeButtons.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
@@ -25,6 +24,7 @@ import PushPrOptions from "@/components/TriggerBuilders/PushPrOptions.vue";
 import PushPrGroup from "@/components/TriggerBuilders/PushPrGroup.vue";
 import ScheduleGroup from "@/components/TriggerBuilders/ScheduleGroup.vue";
 import ManualGroup from "@/components/TriggerBuilders/ManualGroup.vue";
+import PickTypeButtons from "@/components/PickTypeButtons.vue";
 
 // noinspection JSMethodCanBeStatic
 @Component({

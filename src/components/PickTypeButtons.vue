@@ -31,9 +31,9 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
+import { Component } from "vue-property-decorator";
 
 import { commit, triggerBuilderState, workflow } from "@/stores";
-import { Component } from "vue-property-decorator";
 
 // noinspection JSMethodCanBeStatic
 @Component

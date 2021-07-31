@@ -10,13 +10,13 @@
 </template>
 
 <script lang="ts">
-import { CronConfig } from "@/types/Trigger/cronConfig";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-import { workflow } from "@/stores";
 import Rows from "@/components/DisplayAid/Rows.vue";
 import ScheduleEditor from "@/components/TriggerBuilders/ScheduleEditor.vue";
+import { workflow } from "@/stores";
+import { CronConfig } from "@/types/Trigger/cronConfig";
 
 // noinspection JSMethodCanBeStatic
 @Component({
