@@ -4,3 +4,5 @@ export interface PushPrConfig {
   "branches-ignore"?: string[];
   "tags-ignore"?: string[];
 }
+
+export type BranchType = keyof PushPrConfig;

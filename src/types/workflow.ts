@@ -3,7 +3,7 @@ import { Trigger } from "@/types/Trigger/trigger";
 
 export interface Workflow {
   name?: string;
-  on?: Trigger;
+  on: Trigger;
   jobs?: {
     [name: string]: Job;
   };
