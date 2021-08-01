@@ -26,7 +26,7 @@ const store: Module<Workflow, RootState> = {
     jobs: {
       "todo-app": {
         "runs-on": "ubuntu-latest",
-        env: { KEY1: "value1", KEY2: "value2" },
+        env: { KEY1: "value1", KEY2: "value2", KEY3: "value3" },
         steps: [
           { uses: "actions/checkout@v2" },
           { uses: "actions/setup-node@v1" },

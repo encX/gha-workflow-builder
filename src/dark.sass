@@ -1,0 +1,120 @@
+@import "~bulma/sass/utilities/functions"
+@import "~bulma/sass/utilities/initial-variables"
+
+@function findColorInvertForDark($color)
+	@if (colorLuminance($color) < 0.45)
+		@return rgba(#FFF, 0.8)
+	@else
+		@return #000
+
+$primary: $yellow
+
+$info: $cyan !default
+$success: $green !default
+$warning: $yellow !default
+$danger: $red !default
+
+$light: $black-ter !default
+$dark: $grey-lighter !default
+
+// Invert colors
+
+@function findDarkColorV2($color)
+	@if type-of($color) == 'color'
+		$base-l: 20%
+		$luminance: colorLuminance($color)
+		$luminance-delta: (0.7 - $luminance)
+		$target-l: round($base-l + ($luminance-delta * 27))
+		@return change-color($color, $lightness: max($base-l, $target-l))
+	@return $text-strong
+
+$orange-invert: findColorInvertForDark($orange) !default
+$yellow-invert: findColorInvertForDark($yellow) !default
+$green-invert: findColorInvertForDark($green) !default
+$turquoise-invert: findColorInvertForDark($turquoise) !default
+$cyan-invert: findColorInvertForDark($cyan) !default
+$blue-invert: findColorInvertForDark($blue) !default
+$purple-invert: findColorInvertForDark($purple) !default
+$red-invert: findColorInvertForDark($red) !default
+
+$primary-invert: findColorInvertForDark($primary) !default
+$primary-light: findDarkColorV2($primary) !default
+$primary-dark: findLightColor($primary) !default
+$info-invert: findColorInvertForDark($info) !default
+$info-light: findDarkColorV2($info) !default
+$info-dark: findLightColor($info) !default
+$success-invert: findColorInvertForDark($success) !default
+$success-light: findDarkColorV2($success) !default
+$success-dark: findLightColor($success) !default
+$warning-invert: findColorInvertForDark($warning) !default
+$warning-light: findDarkColorV2($warning) !default
+$warning-dark: findLightColor($warning) !default
+$danger-invert: findColorInvertForDark($danger) !default
+$danger-light: findDarkColorV2($danger) !default
+$danger-dark: findLightColor($danger) !default
+$light-invert: findColorInvertForDark($light) !default
+$dark-invert: findColorInvertForDark($dark) !default
+
+// General colors
+
+$light: $black-ter
+$dark: $grey-lighter
+
+$scheme-main: $black
+$scheme-main-bis: $black-bis
+$scheme-main-ter: $black-ter
+$scheme-invert: $white
+$scheme-invert-bis: $white-bis
+$scheme-invert-ter: $white-ter
+
+$background: $grey-darker
+
+$border: $grey-darker
+$border-hover: $grey-dark
+$border-light: $grey-darker
+$border-light-hover: $grey-dark
+
+// Text colors
+
+$text: $grey-light
+$text-invert: $grey-dark
+$text-light: $grey-lighter
+$text-strong: $grey-lightest
+
+// Code colors
+
+$code: darken($red, 15%)
+$code-background: $background
+
+$pre: $text
+$pre-background: $background
+
+// Link colors
+
+$link: findColorInvertForDark($blue)
+$link-invert: $blue
+$link-light: findDarkColorV2($link)
+$link-dark: findLightColor($link)
+$link-visited: $purple
+
+$link-hover: findColorInvertForDark($grey-darker)
+$link-hover-border: findColorInvertForDark($grey-light)
+
+$link-focus: $grey-lighter
+$link-focus-border: findColorInvertForDark($blue)
+
+$link-active: $grey-lighter
+$link-active-border: $grey-light
+
+$custom-colors: null !default
+$colors: mergeColorMaps(("white": ($black, $white), "black": ($white, $black), "light": ($light, $light-invert), "dark": ($dark, $dark-invert), "primary": ($primary, $primary-invert, $primary-light, $primary-dark), "link": ($link, $link-invert, $link-light, $link-dark), "info": ($info, $info-invert, $info-light, $info-dark), "success": ($success, $success-invert, $success-light, $success-dark), "warning": ($warning, $warning-invert, $warning-light, $warning-dark), "danger": ($danger, $danger-invert, $danger-light, $danger-dark)), $custom-colors) !default
+
+
+// Element override
+.tag:not(body)
+	@each $name, $pair in $colors
+		$color: nth($pair, 1)
+		&.is-#{$name}
+			border-width: 1px
+			border-style: solid
+			border-color: $color

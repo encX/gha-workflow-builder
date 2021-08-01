@@ -7,7 +7,7 @@
       </div>
 
       <b-button
-        class="row-control-btn is-danger"
+        class="row-control-btn is-danger is-light"
         icon-left="delete"
         @click="onDelete"
       />

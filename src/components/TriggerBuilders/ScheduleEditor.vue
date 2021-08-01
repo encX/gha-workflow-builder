@@ -9,18 +9,18 @@
     </div>
     <b-button
       v-if="isEditing"
-      class="row-control-btn is-success"
+      class="row-control-btn is-success is-light"
       icon-left="check"
       @click="onSave"
     />
     <b-button
       v-else
-      class="row-control-btn is-warning"
+      class="row-control-btn is-warning is-light"
       icon-left="pencil"
       @click="onEdit"
     />
     <b-button
-      class="row-control-btn is-danger"
+      class="row-control-btn is-danger is-light"
       icon-left="delete"
       @click="onDelete"
     />

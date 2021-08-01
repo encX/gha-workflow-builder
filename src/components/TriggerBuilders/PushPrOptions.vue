@@ -1,7 +1,5 @@
 <template>
   <div class="push-pr-builder block">
-    <h5 class="title is-5">New trigger on {{ title }} ...</h5>
-
     <div class="buttons">
       <b-button
         v-if="canUseBranch"
@@ -31,7 +29,7 @@
       >
         to all tag except ...
       </b-button>
-      <b-button class="button" @click="onCancel">Cancel</b-button>
+      <b-button class="" @click="onCancel">Cancel</b-button>
     </div>
     <p class="is-size-7">
       * Positive filter (to branch/tag) and negative filter (to all branch/tag
@@ -44,7 +42,6 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-import { getTriggerTitle } from "@/helpers/TriggerTypeMapper";
 import { triggerBuilderState, workflow, commit } from "@/stores";
 import { BranchType } from "@/types/Trigger/pushPrConfig";
 
@@ -55,10 +52,6 @@ export default class PushPrOptions extends Vue {
     return triggerBuilderState.currentTriggerBuild === "pull_request"
       ? "pull_request"
       : "push";
-  }
-
-  private get title(): string {
-    return getTriggerTitle(this.trigger).toLowerCase();
   }
 
   private setStage(type: BranchType): void {

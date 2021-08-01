@@ -15,20 +15,20 @@ export default class Rows extends Vue {
 </script>
 
 <style lang="scss">
+@import "../../theme";
 .rows {
   padding: 0 !important;
   overflow: hidden;
   border: 1px solid #eee;
   border-radius: 6px;
   display: block;
-  color: #4a4a4a;
+  color: $box-color;
+  background-color: $box-background-color;
 
   &.with-shadow {
     border: 0;
-    -webkit-box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
-      0 0px 0 1px rgba(10, 10, 10, 0.02);
-    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
-      0 0px 0 1px rgba(10, 10, 10, 0.02);
+    -webkit-box-shadow: $box-shadow;
+    box-shadow: $box-shadow;
   }
 
   &:not(:last-child) {
@@ -42,7 +42,7 @@ export default class Rows extends Vue {
     animation: newBox 2s;
 
     &:not(:last-child) {
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid $border;
     }
 
     .row-main-content {
@@ -59,10 +59,10 @@ export default class Rows extends Vue {
 
 @keyframes newBox {
   from {
-    background-color: #ffdb4a;
+    background-color: $primary;
   }
   to {
-    background-color: white;
+    background-color: transparent;
   }
 }
 </style>

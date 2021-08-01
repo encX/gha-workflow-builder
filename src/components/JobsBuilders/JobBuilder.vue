@@ -42,14 +42,15 @@
 </template>
 
 <script lang="ts">
+import { workflow } from "@/stores";
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 
 import { GitHubRunner } from "@/types/Job/job";
 
 @Component
 export default class JobBuilder extends Vue {
-  private jobId = "todo-validation";
+  @Prop({ required: true }) private jobId!: string;
   private readonly RunsOn: GitHubRunner[] = [
     "macos-10.15",
     "macos-11.0",
@@ -63,10 +64,11 @@ export default class JobBuilder extends Vue {
     "windows-latest",
   ];
 
-  private jobEnv: EnvTable[] = [
-    { varName: "KEY1", value: "value1" },
-    { varName: "KEY2", value: "value2" },
-  ];
+  private get jobEnv(): EnvTable[] {
+    return Object.entries(
+      workflow.jobs![this.jobId].env
+    ).map(([varName, value]) => ({ varName, value }));
+  }
 
   private envColumns: BTableColumn[] = [
     { field: "varName", label: "Variable" },

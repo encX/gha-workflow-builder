@@ -7,11 +7,12 @@
       <b-button icon-left="plus" type="is-primary is-light"> new job </b-button>
     </div>
 
-    <JobBuilder />
+    <JobBuilder v-for="id in jobIds" :key="id" :job-id="id" />
   </section>
 </template>
 
 <script lang="ts">
+import { workflow } from "@/stores";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
@@ -20,5 +21,7 @@ import JobBuilder from "@/components/JobsBuilders/JobBuilder.vue";
 @Component({
   components: { JobBuilder },
 })
-export default class JobsBuilder extends Vue {}
+export default class JobsBuilder extends Vue {
+  private jobIds = Object.keys(workflow.jobs ?? []);
+}
 </script>
