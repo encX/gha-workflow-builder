@@ -1,8 +1,16 @@
 @import "dark"
+@import "~bulma/sass/utilities/derived-variables"
 
-$primary: $yellow
-//$box-background-color: $scheme-main
 $body-background-color: $scheme-main-ter
+
+.tag:not(body)
+	@each $name, $pair in $colors
+		$color: nth($pair, 1)
+		&.is-#{$name}
+			border-width: 1px
+			border-style: solid
+			border-color: $color
+
 
 @import "~bulma"
 @import "~buefy/src/scss/buefy"
