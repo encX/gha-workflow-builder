@@ -2,26 +2,27 @@
   <div class="job box">
     <h3 class="title is-4">Job `{{ jobId }}`</h3>
 
-    <b-field label="Job Id" type="is-success">
-      <b-input v-model="jobId"></b-input>
-    </b-field>
-    <hr />
-    <b-field label="Runs on">
-      <b-select placeholder="Select runner OS">
-        <option v-for="type in RunsOn" :key="type">{{ type }}</option>
-      </b-select>
-    </b-field>
-    <hr />
-    <b-field label="Environment variables">
-      <b-table
-        v-if="jobEnv.length > 0"
-        :data="jobEnv"
-        :columns="envColumns"
-      ></b-table>
-    </b-field>
-    <div class="buttons">
-      <b-button type="is-primary">Add</b-button>
+    <div class="columns">
+      <div class="column">
+        <b-field label="Job Id" type="is-success">
+          <b-input v-model="jobId"></b-input>
+        </b-field>
+      </div>
+      <div class="column">
+        <b-field label="Runs on">
+          <b-select placeholder="Select runner OS" expanded>
+            <option v-for="type in RunsOn" :key="type">{{ type }}</option>
+          </b-select>
+        </b-field>
+      </div>
     </div>
+
+    <hr />
+
+    <b-field label="Environment variables">
+      <EnvEditor :job-id="jobId" site="job" />
+    </b-field>
+
     <hr />
 
     <b-field label="Steps">
@@ -42,15 +43,20 @@
 </template>
 
 <script lang="ts">
-import { workflow } from "@/stores";
+import EnvEditor from "@/components/JobsBuilders/EnvEditor.vue";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
 import { GitHubRunner } from "@/types/Job/job";
+import Rows from "@/components/DisplayAid/Rows.vue";
+import EnvItemEditor from "@/components/JobsBuilders/EnvItemEditor.vue";
 
-@Component
+@Component({
+  components: { EnvEditor, Rows, EnvItemEditor },
+})
 export default class JobBuilder extends Vue {
   @Prop({ required: true }) private jobId!: string;
+
   private readonly RunsOn: GitHubRunner[] = [
     "macos-10.15",
     "macos-11.0",
@@ -63,30 +69,6 @@ export default class JobBuilder extends Vue {
     "windows-2019",
     "windows-latest",
   ];
-
-  private get jobEnv(): EnvTable[] {
-    return Object.entries(
-      workflow.jobs![this.jobId].env
-    ).map(([varName, value]) => ({ varName, value }));
-  }
-
-  private envColumns: BTableColumn[] = [
-    { field: "varName", label: "Variable" },
-    { field: "value", label: "Value" },
-  ];
-}
-
-interface EnvTable {
-  varName: string;
-  value: string;
-}
-
-interface BTableColumn {
-  field: string;
-  label: string;
-  width?: string;
-  numeric?: boolean;
-  centered?: boolean;
 }
 </script>
 

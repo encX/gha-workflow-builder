@@ -3,11 +3,11 @@
     <h1 class="title">Jobs</h1>
     <h2 class="subtitle">These jobs will be executed</h2>
 
-    <div class="block">
-      <b-button icon-left="plus" type="is-primary is-light"> new job </b-button>
-    </div>
-
     <JobBuilder v-for="id in jobIds" :key="id" :job-id="id" />
+
+    <div class="block">
+      <b-button icon-left="plus" type="is-primary is-light">Create</b-button>
+    </div>
   </section>
 </template>
 

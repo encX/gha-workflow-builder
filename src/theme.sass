@@ -3,6 +3,7 @@
 
 $body-background-color: $scheme-main-ter
 
+// Add border color to bulma
 .tag:not(body)
 	@each $name, $pair in $colors
 		$color: nth($pair, 1)
@@ -10,6 +11,16 @@ $body-background-color: $scheme-main-ter
 			border-width: 1px
 			border-style: solid
 			border-color: $color
+
+// Override buefy style
+.select
+	select
+		option
+			color: $grey-light !important
+		optgroup
+			color: $grey-dark !important
+	&.is-empty select
+		color: rgba($grey, 0.7)
 
 
 @import "~bulma"

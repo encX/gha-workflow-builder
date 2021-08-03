@@ -26,5 +26,7 @@ export default class ScheduleGroup extends Vue {
   private get triggerConfig(): CronConfig[] {
     return workflow.on.schedule ?? [];
   }
+
+  // todo maintain meta state here and commit on save like env
 }
 </script>

@@ -1,4 +1,5 @@
 import { RootState } from "@/stores/index";
+import { Env } from "@/types/Env";
 import { BranchType } from "@/types/Trigger/pushPrConfig";
 import { Workflow } from "@/types/workflow";
 import { Module } from "vuex";
@@ -17,6 +18,11 @@ interface DeletePushPrPayload {
 interface SetSchedulePayload {
   index: number;
   cron: string;
+}
+
+interface PatchJobEnvPayload {
+  jobId: string;
+  env: Env;
 }
 
 const store: Module<Workflow, RootState> = {
@@ -78,6 +84,13 @@ const store: Module<Workflow, RootState> = {
     deleteManual(state: Workflow): void {
       delete state.on.workflow_dispatch;
       state.on = { ...state.on }; // re-trigger rx
+    },
+    patchJobEnv(state: Workflow, { jobId, env }: PatchJobEnvPayload): void {
+      if (state?.jobs?.[jobId]) {
+        state.jobs[jobId].env = env;
+      } else {
+        throw new Error(`no jobId '${jobId}'`);
+      }
     },
   },
   actions: {
